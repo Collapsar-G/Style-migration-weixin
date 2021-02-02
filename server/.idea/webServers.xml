@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="505b2071-7657-4260-b835-e1bec15365a4" name="server" url="http://39.105.76.87">
+        <fileTransfer host="39.105.76.87" port="22" privateKey="C:\Users\Judgement\.ssh\id_rsa.rsa" rootFolder="/www/wwwroot/xcx.collapsar.online" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

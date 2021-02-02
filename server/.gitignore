@@ -1,0 +1,9 @@
+#Intellij idea
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#python
+*.pyc
