@@ -7,3 +7,4 @@
 
 #python
 *.pyc
+/xcx_venv
