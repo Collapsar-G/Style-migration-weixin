@@ -16,7 +16,7 @@ def InfiniteSampler(n):
             i = 0
 
 
-class InfiniteSamplerWrapper(data.sampler.Sampler):
+class IniteSamplerWrapper(data.sampler.Sampler):
     def __init__(self, data_source):
         self.num_samples = len(data_source)
 

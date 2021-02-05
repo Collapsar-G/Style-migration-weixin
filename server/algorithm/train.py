@@ -11,7 +11,7 @@ from torchvision import transforms
 from tqdm import tqdm
 
 import net
-from sampler import InitSamplerWrapper
+from sampler import IniteSamplerWrapper
 
 cudnn.benchmark = True
 Image.MAX_IMAGE_PIXELS = None  # Disable DecompressionBombError
@@ -102,11 +102,11 @@ style_dataset = FlatFolderDataset(args.style_dir, style_tf)  # 加载风格图�
 
 content_iter = iter(data.DataLoader(
     content_dataset, batch_size=args.batch_size,
-    sampler=InfiniteSamplerWrapper(content_dataset),
+    sampler=IniteSamplerWrapper(content_dataset),
     num_workers=args.n_threads))
 style_iter = iter(data.DataLoader(
     style_dataset, batch_size=args.batch_size,
-    sampler=InfiniteSamplerWrapper(style_dataset),
+    sampler=IniteSamplerWrapper(style_dataset),
     num_workers=args.n_threads))
 
 optimizer = torch.optim.Adam(network.decoder.parameters(), lr=args.lr)
