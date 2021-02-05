@@ -1,7 +1,7 @@
 import torch.nn as nn
 
-from fun import adaptive_instance_normalization as adain
-from fun import calculate_mean_std
+from function import adaptive_instance_normalization as adain
+from function import calc_mean_std
 
 # 用三个上采样来恢复图片大小到原本情况,最后恢复到RGB三通道
 decoder = nn.Sequential(
@@ -67,7 +67,7 @@ vgg = nn.Sequential(
     nn.MaxPool2d((2, 2), (2, 2), (0, 0), ceil_mode=True),
     nn.ReflectionPad2d((1, 1, 1, 1)),
     nn.Conv2d(256, 512, (3, 3)),
-    nn.ReLU(),  # relu4-1,    只用到这一部分及以上，刚好和decoder部分对应
+    nn.ReLU(),  # relu4-1只用到这一部分及以上，刚好和decoder部分对应
     nn.ReflectionPad2d((1, 1, 1, 1)),
     nn.Conv2d(512, 512, (3, 3)),
     nn.ReLU(),  # relu4-2
@@ -115,7 +115,7 @@ class Net(nn.Module):
         results = [input]
         for i in range(4):
             # getattr(self, enc_1)相当于self.enc_1
-            func = getattr(self, 'enc_{:d}'.format(i + 1))  # 提中间层模型
+            func = getattr(self, 'enc_{:d}'.format(i + 1))
             results.append(func(results[-1]))
             # 这里是加这一层的输出（results[-1]是前一层输出，经过这一层就是这一层输出）
         return results[1:]  # 然后扔掉原始数据result[0]

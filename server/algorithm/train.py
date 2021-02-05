@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 import net
 from sampler import InitSamplerWrapper
-# torch.cuda.set_device(0)
+
 cudnn.benchmark = True
 Image.MAX_IMAGE_PIXELS = None  # Disable DecompressionBombError
 # Disable OSError: image file is truncated
@@ -74,7 +74,7 @@ parser.add_argument('--max_iter', type=int, default=160000)  # 最大迭代次�
 parser.add_argument('--batch_size', type=int, default=8)  # 批处理数
 parser.add_argument('--style_weight', type=float, default=10.0)  # 风格权重
 parser.add_argument('--content_weight', type=float, default=1.0)  # 内容权重
-parser.add_argument('--n_threads', type=int, default=2)  # 线程数
+parser.add_argument('--n_threads', type=int, default=16)  # 线程数
 parser.add_argument('--save_model_interval', type=int, default=10000)
 args = parser.parse_args()
 # 初始化数据
@@ -102,11 +102,11 @@ style_dataset = FlatFolderDataset(args.style_dir, style_tf)  # 加载风格图�
 
 content_iter = iter(data.DataLoader(
     content_dataset, batch_size=args.batch_size,
-    sampler=InitSamplerWrapper(content_dataset),
+    sampler=InfiniteSamplerWrapper(content_dataset),
     num_workers=args.n_threads))
 style_iter = iter(data.DataLoader(
     style_dataset, batch_size=args.batch_size,
-    sampler=InitSamplerWrapper(style_dataset),
+    sampler=InfiniteSamplerWrapper(style_dataset),
     num_workers=args.n_threads))
 
 optimizer = torch.optim.Adam(network.decoder.parameters(), lr=args.lr)
@@ -133,4 +133,5 @@ for i in tqdm(range(args.max_iter)):
             state_dict[key] = state_dict[key].to(torch.device('cpu'))
         torch.save(state_dict, save_dir /
                    'decoder_iter_{:d}.pth.tar'.format(i + 1))
+
 writer.close()

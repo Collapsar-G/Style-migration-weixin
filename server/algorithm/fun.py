@@ -1,25 +1,26 @@
 import torch
 
 
-def calculate_mean_std(data, eps=1e-5):  # 计算标准差、方差
-    # eps用来防止零除
-    size = data.size()
+def calc_mean_std(feat, eps=1e-5):  # 计算标准差、均方差
+    # eps 用来防止零除
+    size = feat.size()
     assert (len(size) == 4)
     N, C = size[:2]
-    data_std = (data.view(N, C, -1).var(dim=2) + eps).sqrt().view(N, C, 1, 1)
-    data_mean = data.view(N, C, -1).mean(dim=2).mean().view(N, C, 1, 1)
-    return data_mean, data_std
+    feat_var = feat.view(N, C, -1).var(dim=2) + eps
+    feat_std = feat_var.sqrt().view(N, C, 1, 1)
+    feat_mean = feat.view(N, C, -1).mean(dim=2).view(N, C, 1, 1)
+    return feat_mean, feat_std
 
 
-def adaptive_instance_normalization(content, style):
-    assert (content.size()[:2] == style.size()[:2])
-    size = content.size()
-    style_mean, style_std = calc_mean_std(style)
-    content_mean, content_std = calc_mean_std(content)
+def adaptive_instance_normalization(content_feat, style_feat):
+    assert (content_feat.size()[:2] == style_feat.size()[:2])
+    size = content_feat.size()
+    style_mean, style_std = calc_mean_std(style_feat)
+    content_mean, content_std = calc_mean_std(content_feat)
 
-    normalized_feat = (content - content_mean.expand(
+    normalized_feat = (content_feat - content_mean.expand(
         size)) / content_std.expand(size)
-    return normalized * style_std.expand(size) + style_mean.expand(size)
+    return normalized_feat * style_std.expand(size) + style_mean.expand(size)
 
 
 def _calc_feat_flatten_mean_std(feat):
@@ -44,15 +45,15 @@ def coral(source, target):
     source_f, source_f_mean, source_f_std = _calc_feat_flatten_mean_std(source)
     # 利用上面那个函数求拉平数据和均值标准差
     source_f_norm = (source_f - source_f_mean.expand_as(
-        source_f)) / source_f_std.expand_as(source_f)  # 标准化
+        source_f)) / source_f_std.expand_as(source_f)
     source_f_cov_eye = \
-        torch.mm(source_f_norm, source_f_norm.t()) + torch.eye(3)  # 对角元+1（3*3对角阵）
+        torch.mm(source_f_norm, source_f_norm.t()) + torch.eye(3)
 
     target_f, target_f_mean, target_f_std = _calc_feat_flatten_mean_std(target)
     target_f_norm = (target_f - target_f_mean.expand_as(
         target_f)) / target_f_std.expand_as(target_f)
     target_f_cov_eye = \
-        torch.mm(target_f_norm, target_f_norm.t()) + torch.eye(3)  #
+        torch.mm(target_f_norm, target_f_norm.t()) + torch.eye(3)
 
     source_f_norm_transfer = torch.mm(
         _mat_sqrt(target_f_cov_eye),
