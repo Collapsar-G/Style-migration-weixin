@@ -16,10 +16,21 @@ Page({
       color: 'pink',
       icon: 'newsfill'
     }
-  ],
+    ],
+    src:"../../icon/btn.png"
   },
 
   onLoad() {
 
   },
+  changePic(){
+    this.setData({
+      src:"../../icon/btn2.png"
+    })
+  },
+  changePicBack(){
+    this.setData({
+      src:"../../icon/btn.png"
+    })
+  }
 })
