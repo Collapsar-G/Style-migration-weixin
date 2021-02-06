@@ -29,7 +29,7 @@ if __name__ == '__main__':
     data_json = simplejson.loads(res.text)
     # print(data_json)
     # 把区获取到的数据转为JSON格式。
-    # for i in range(11):  # 返回alpha0、0.1、......1.0一共11张图片
+
     img_str = data_json[0]['alpha' + str(alpha)]
     img_decode_ = img_str.encode('ascii')  # ascii编码
     img_decode = base64.b64decode(img_decode_)  # base64解码
