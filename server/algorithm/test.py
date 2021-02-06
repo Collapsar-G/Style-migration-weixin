@@ -6,9 +6,11 @@ import torch.nn as nn
 from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
-
-import net
-from function import adaptive_instance_normalization, coral
+import cv2
+from algorithm import  net
+from algorithm.function import adaptive_instance_normalization, coral
+# import net
+# from function import adaptive_instance_normalization, coral
 
 
 def test_transform(size, crop):
@@ -40,9 +42,11 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0,
     return decoder(feat)
 
 
-def using(content, style, alpha):
-    vgg_path = 'models/vgg_normalised.pth'
-    decoder_path = 'models/decoder.pth'
+def using_model(content, style, alpha, preserve_color=False):
+    vgg_path = 'algorithm/models/vgg_normalised.pth'
+    decoder_path = 'algorithm/models/decoder.pth'
+    # vgg_path = './models/vgg_normalised.pth'
+    # decoder_path = './models/decoder.pth'
     content_dir = ''
     style_dir = ''
     content_size = 512  # New (minimum) size for the content image, keeping the original size if set to 0
@@ -52,8 +56,6 @@ def using(content, style, alpha):
     style_interpolation_weights = ''  # The weight for blending the style of multiple style images
     do_interpolation = True
     crop = True
-    preserve_color = True
-   
 
     do_interpolation = False
 
@@ -92,7 +94,7 @@ def using(content, style, alpha):
     decoder.eval()
     vgg.eval()
 
-    decoder.load_state_dict(torch.load(Path(decoder_path)))
+    decoder.load_state_dict(torch.load(decoder_path))
     vgg.load_state_dict(torch.load(Path(vgg_path)))
     vgg = nn.Sequential(*list(vgg.children())[:31])
 
@@ -113,8 +115,8 @@ def using(content, style, alpha):
                 output = style_transfer(vgg, decoder, content, style,
                                         alpha, interpolation_weights)
             output = output.cpu()
-            output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}{:s}'.format(
-                content_path.stem, style_path.stem, str(alpha), save_ext)
+            output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
+                content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
             save_image(output, str(output_name))
 
         else:  # process one content and one style
@@ -130,11 +132,15 @@ def using(content, style, alpha):
                                             alpha)
                 output = output.cpu()
 
-                output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}{:s}'.format(
-                    content_path.stem, style_path.stem, str(alpha), save_ext)
+                output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
+                    content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
                 save_image(output, str(output_name))
         return output_name
 
 
 if __name__ == '__main__':
-    print(using('./input/content/flowers.jpg','./input/style/harvard_0.jpg',1.0))
+    img01 = cv2.imread(str(using_model('./input/content/sh1.jpg', './input/style_in/qjssh.jpeg', 1.0, False)))
+    img_medianBlur = cv2.medianBlur(img01, 3)
+    cv2.imshow('1', img_medianBlur)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

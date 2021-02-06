@@ -1,7 +1,10 @@
 import torch.nn as nn
 
-from function import adaptive_instance_normalization as adain
-from function import calc_mean_std
+from algorithm.function import adaptive_instance_normalization as adain
+from algorithm.function import calc_mean_std
+# from function import adaptive_instance_normalization as adain
+# from function import calc_mean_std
+
 
 # 用三个上采样来恢复图片大小到原本情况,最后恢复到RGB三通道
 decoder = nn.Sequential(
@@ -155,3 +158,4 @@ class Net(nn.Module):
         for i in range(1, 4):
             loss_s += self.calc_style_loss(g_t_feats[i], style_feats[i])  # 4个中间风格和输出对应的比对一下
         return loss_c, loss_s  # 返回损失（这两个损失加权为最终损失，在权值对反向传播有影响）
+
