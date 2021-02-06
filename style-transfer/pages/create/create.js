@@ -1,4 +1,6 @@
+const app = getApp();
 Page({
+
   data: {
     cardCur: 0,
     swiperList: [{
@@ -30,10 +32,24 @@ Page({
       type: 'image',
       url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
     }],
-    src:''
+    src:'',
+    btnheight:0,
+    ljheight:0,
+    bkheight:0,
   },
   onLoad() {
-
+    let that = this
+    wx.getSystemInfo({
+      success: e => {
+        let total = (e.windowHeight-app.globalData.CustomBar)*750/e.windowWidth
+        console.log(total)
+        that.setData({
+          btnheight: total*0.29605263157894736842105263157895,
+          ljheight: total*0.26315789473684210526315789473684,
+          bkheight:total*0.61677631578947368421052631578947
+        })
+      }
+    })
   },
   getLocalImage:function(){
     var that=this;
@@ -42,12 +58,12 @@ Page({
         success:function(res){
             // 这里无论用户是从相册选择还是直接用相机拍摄，拍摄完成后的图片临时路径都会传递进来
             // app.startOperating("保存中")
-            // var filePath=res.tempFilePaths[0];
+            var filePath=res.tempFilePaths[0];
             that.setData({
-              src: res.tempFilePaths[0]
+              src:filePath
             })
             // var session_key=wx.getStorageSync('session_key');
-            // 这里顺道展示一下如何将上传上来的文件返回给后端，就是调用wx.uploadFile函数
+            // // 这里顺道展示一下如何将上传上来的文件返回给后端，就是调用wx.uploadFile函数
             // wx.uploadFile({
             //     url: app.globalData.url+'/home/upload/uploadFile/session_key/'+session_key,
             //     filePath: filePath,
@@ -71,20 +87,6 @@ Page({
         complete:function(){
 
         }
-    })
-},
-  error(e) {
-    console.log(e.detail)
-  },
-  DotStyle(e) {
-    this.setData({
-      DotStyle: e.detail.value
-    })
-  },
-  // cardSwiper
-  cardSwiper(e) {
-    this.setData({
-      cardCur: e.detail.current
     })
   }
 })

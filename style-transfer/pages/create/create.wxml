@@ -1,20 +1,19 @@
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
-	<view slot="backText">返回</view>
-	<view slot="content">新建图片</view>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}" bgImage="https://s3.ax1x.com/2021/02/05/yGp6pt.jpg">
 </cu-custom>
 <image class='background' src='../../icon/bk.png' mode="aspectFill"></image>
 
-<button type="primary" bindtap="getLocalImage">拍照</button>
-<view>预览</view>
+<image class='background2' src='../../icon/bk3.png' style="height: {{bkheight}}rpx;" mode="aspectFill"></image>
 <image mode="widthFix" src="{{src}}"></image>
-
+<button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button>
 
 
 <view class="theStyle">
-    <swiper class="card-swiper"  duration="500" bindchange="cardSwiper" >
+    <swiper class="card-swiper" style="height:{{ljheight}}rpx !important" duration="500" bindchange="cardSwiper" >
         <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
             <view class="swiper-item">
-            <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>    </view>
+                <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+            </view>
         </swiper-item>
     </swiper>
 </view>
+
