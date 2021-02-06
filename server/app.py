@@ -14,7 +14,7 @@ app.register_blueprint(style)
 
 @app.route('/')
 def hello_world():
-    return '陈阳真帅啊！！！'
+    return '陈阳真帅啊！！！我好爱！！！' 
 
 
 if __name__ == '__main__':

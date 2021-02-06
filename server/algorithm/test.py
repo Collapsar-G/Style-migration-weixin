@@ -6,7 +6,7 @@ import torch.nn as nn
 from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
-
+import cv2
 from algorithm import  net
 from algorithm.function import adaptive_instance_normalization, coral
 # import net
@@ -115,8 +115,8 @@ def using_model(content, style, alpha, preserve_color=False):
                 output = style_transfer(vgg, decoder, content, style,
                                         alpha, interpolation_weights)
             output = output.cpu()
-            output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}{:s}'.format(
-                content_path.stem, style_path.stem, str(alpha), save_ext)
+            output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
+                content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
             save_image(output, str(output_name))
 
         else:  # process one content and one style
@@ -132,11 +132,15 @@ def using_model(content, style, alpha, preserve_color=False):
                                             alpha)
                 output = output.cpu()
 
-                output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}{:s}'.format(
-                    content_path.stem, style_path.stem, str(alpha), save_ext)
+                output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
+                    content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
                 save_image(output, str(output_name))
         return output_name
 
 
 if __name__ == '__main__':
-    print(using_model('./input/content/test6.jpg', './input/style_in/test5.jpg', 1.0))
+    img01 = cv2.imread(str(using_model('./input/content/sh1.jpg', './input/style_in/qjssh.jpeg', 1.0, False)))
+    img_medianBlur = cv2.medianBlur(img01, 3)
+    cv2.imshow('1', img_medianBlur)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
