@@ -20,8 +20,8 @@ if __name__ == '__main__':
     alpha = 1.0
     # print(img_str)
     # url = 'http://39.105.76.87:3268/style_qlssh_no/'
-    # url = 'https://xcx.collapsar.online/style_qlssh_no/'
-    url = 'http://localhost:3268/style_qlssh_no/'
+    url = 'http://xcx.collapsar.online/style_qlssh_no/'
+    # url = 'http://localhost:3268/style_qlssh_no/'
     data = {'comment_img': img_str,'alpha': alpha}
     json_mod = simplejson.dumps(data)
     res = requests.post(url=url, data=json_mod)
