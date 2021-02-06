@@ -76,7 +76,7 @@ def style_glssh_is():
     data_json = simplejson.loads(data)
     # 把区获取到的数据转为JSON格式。
     img_str = data_json['comment_img']
-    alpha = img_str['alpha']
+    alpha = data_json['alpha']
     img_decode_ = img_str.encode('ascii')  # ascii编码
     img_decode = base64.b64decode(img_decode_)  # base64解码
     img_np = np.frombuffer(img_decode, np.uint8)  # 从byte数据读取为np.array形式
