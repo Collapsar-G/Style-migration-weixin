@@ -154,7 +154,7 @@ def style_gjssh_no():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qjssh.jpeg', False)
+    data=data_post(data, 'algorithm/input/style_in/qjssh.jpg', False)
     return simplejson.dumps(data, ensure_ascii=False)
 
 
@@ -183,7 +183,7 @@ def style_gjssh_is():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qjssh.jpeg', True)
+    data=data_post(data, 'algorithm/input/style_in/qjssh.jpg', True)
     return simplejson.dumps(data, ensure_ascii=False)
 
 
