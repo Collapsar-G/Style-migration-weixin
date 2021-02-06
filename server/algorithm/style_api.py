@@ -59,13 +59,13 @@ def data_post(data, path_style, color):
     # 显示图像
     path = 'algorithm/using/' + str(a) + '.jpg'
     cv2.imwrite(path, img)
-    print(path)
+    # print(path)
     data1 = []
     if color:
         result = Style_is(path, path_style, alpha, True)
     else:
         result = Style_no(path, path_style, alpha=alpha)
-    print(result)
+    # print(result)
     img_str = getByte(result)
     data1.append(tojson(str(alpha), str(img_str)))
     return data1
@@ -129,11 +129,63 @@ def style_glssh_is():
     return simplejson.dumps(data, ensure_ascii=False)
 
 
-# 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0',
-#             port=3268,
-#             debug=True)
+@style.route('/style_qjssh_no/', methods=['post'])  # 浅绛山水画不保留原色 接口
+def style_gjssh_no():
+    if not request.data:  # 检测是否有数据
+        return 'fail'
+    data = request.data.decode('utf-8')
+    # 获取到POST过来的数据，
+    # data_json = simplejson.loads(data)
+    # # 把区获取到的数据转为JSON格式。
+    # img_str = data_json['comment_img']
+    # alpha = data_json['alpha']
+    # img_decode_ = img_str.encode('ascii')  # ascii编码
+    # img_decode = base64.b64decode(img_decode_)  # base64解码
+    # img_np = np.frombuffer(img_decode, np.uint8)  # 从byte数据读取为np.array形式
+    # img = cv2.imdecode(img_np, cv2.COLOR_RGB2BGR)  # 转为OpenCV形式
+    # a = time.time()
+    # # 显示图像
+    # path = 'algorithm/using/' + str(a) + '.jpg'
+    # cv2.imwrite(path, img)
+    # print(path)
+    # data = []
+    #
+    # result = Style_no(path, 'algorithm/input/style_in/qlssh.jpg', alpha=alpha)
+    # print(result)
+    # img_str = getByte(result)
+    # data.append(tojson(str(alpha), str(img_str)))
+    data=data_post(data, 'algorithm/input/style_in/qjssh.jpeg', False)
+    return simplejson.dumps(data, ensure_ascii=False)
+
+
+@style.route('/style_qjssh_is/', methods=['post'])  # 浅绛山水画保留原色 接口
+def style_gjssh_is():
+    if not request.data:  # 检测是否有数据
+        return 'fail'
+    data = request.data.decode('utf-8')
+    # # 获取到POST过来的数据，
+    # data_json = simplejson.loads(data)
+    # # 把区获取到的数据转为JSON格式。
+    # img_str = data_json['comment_img']
+    # alpha = data_json['alpha']
+    # img_decode_ = img_str.encode('ascii')  # ascii编码
+    # img_decode = base64.b64decode(img_decode_)  # base64解码
+    # img_np = np.frombuffer(img_decode, np.uint8)  # 从byte数据读取为np.array形式
+    # img = cv2.imdecode(img_np, cv2.COLOR_RGB2BGR)  # 转为OpenCV形式
+    # a = time.time()
+    # # 显示图像
+    # path = 'algorithm/using/' + str(a) + '.jpg'
+    # cv2.imwrite(path, img)
+    # print(path)
+    # data = []
+    #
+    # result = Style_is(path, 'algorithm/input/style_in/qlssh.jpg', alpha, True)
+    # print(result)
+    # img_str = getByte(result)
+    # data.append(tojson(str(alpha), str(img_str)))
+    data=data_post(data, 'algorithm/input/style_in/qjssh.jpeg', True)
+    return simplejson.dumps(data, ensure_ascii=False)
+
 
 if __name__ == '__main__':
     # content = './input/content/brad_pitt.jpg'
