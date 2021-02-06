@@ -2,8 +2,9 @@
 </cu-custom>
 <image class='background' src='../../icon/bk.png' mode="aspectFill"></image>
 
-<image class='background2' src='../../icon/bk3.png' style="height: {{bkheight}}rpx;" mode="aspectFill"></image>
-<image mode="widthFix" src="{{src}}"></image>
+<image class='background2' src='{{swiperList[cardCur].url}}' style="height: {{bkheight}}rpx;filter:blur(10px);" mode="aspectFill"></image>
+<image mode="widthFix" src="{{src}}" style="width:{{SPicWidth}}rpx;margin-top: {{topMargin}}rpx;margin-left: {{leftMargin}}rpx;"></image>
+<!-- <button  style='position:fixed;width:100%;' type="primary" bindtap="getChangeImage">拍照</button> -->
 <button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button>
 
 

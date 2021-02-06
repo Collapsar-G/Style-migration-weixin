@@ -6,36 +6,23 @@ Page({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
+      url: '../../icon/qlssh.jpg'
     }, {
       id: 1,
         type: 'image',
-        url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84001.jpg',
-    }, {
-      id: 2,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
-    }, {
-      id: 3,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
-    }, {
-      id: 4,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg'
-    }, {
-      id: 5,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big21016.jpg'
-    }, {
-      id: 6,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
+        url: '../../icon/qjssh.jpg',
     }],
     src:'',
     btnheight:0,
     ljheight:0,
     bkheight:0,
+    alpha:0,
+    SPicWidth:0,
+    SPicHeight:0,
+    PicWidth:0,
+    PicHeight:0,
+    topMargin:0,
+    leftMargin:0
   },
   onLoad() {
     let that = this
@@ -56,29 +43,39 @@ Page({
     wx.chooseImage({
         count:1,
         success:function(res){
-            // 这里无论用户是从相册选择还是直接用相机拍摄，拍摄完成后的图片临时路径都会传递进来
-            // app.startOperating("保存中")
             var filePath=res.tempFilePaths[0];
+            wx.getImageInfo({
+              src: filePath,
+              success (res) {
+                let twidth = res.width;
+                let theight = res.height;
+                let temp = 670/twidth*theight;
+                if(temp>that.data.bkheight - 40){
+                  let twid =(that.data.bkheight - 40)/theight*twidth
+                  that.setData({
+                    SPicWidth:twid,
+                    SPicHeight:that.data.bkheight - 40,
+                    PicHeight:theight,
+                    PicWidth:twidth,
+                    topMargin:40,
+                    leftMargin:(750-twid)/2
+                  })
+                }
+                else{
+                  that.setData({
+                    SPicWidth:670,
+                    SPicHeight:temp,
+                    PicHeight:theight,
+                    PicWidth:twidth,
+                    topMargin:20+(that.data.bkheight-temp)/2,
+                    leftMargin:40
+                  })
+                }
+              }
+            })
             that.setData({
               src:filePath
             })
-            // var session_key=wx.getStorageSync('session_key');
-            // // 这里顺道展示一下如何将上传上来的文件返回给后端，就是调用wx.uploadFile函数
-            // wx.uploadFile({
-            //     url: app.globalData.url+'/home/upload/uploadFile/session_key/'+session_key,
-            //     filePath: filePath,
-            //     name: 'file',
-            //     success:function(res){
-            //         app.stopOperating();
-            //         // 下面的处理其实是跟我自己的业务逻辑有关
-            //         var data=JSON.parse(res.data);
-            //         if(parseInt(data.status)===1){
-            //             app.showSuccess('文件保存成功');
-            //         }else{
-            //             app.showError("文件保存失败");
-            //         }
-            //     }
-            // })
         },
         fail:function(error){
             console.error("调用本地相册文件时出错")
@@ -88,5 +85,28 @@ Page({
 
         }
     })
-  }
+  },
+  getChangeImage:function(){
+    let that = this;
+    let test =wx.getFileSystemManager().readFileSync(this.data.src, "base64")
+
+    wx.request({
+      url: 'http://xcx.collapsar.online/style_qlssh_no/',
+      data: {
+        comment_img:test,
+        alpha:that.data.alpha
+      },
+      method: 'POST',
+      success: (result)=>{
+        console.log(result)
+      },
+      fail: ()=>{},
+      complete: ()=>{}
+    });
+  },
+  cardSwiper(e) {
+    this.setData({
+      cardCur: e.detail.current
+    })
+  },
 })
