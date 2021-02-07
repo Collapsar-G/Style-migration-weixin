@@ -24,7 +24,7 @@ STYLE_QLSSH_PATH = 'static/image/style/qlssh.jpg'
 STYLE_QJSSH_PATH = 'static/image/style/qjssh.jpg'
 # HOST = '127.0.0.1:3268'
 # HOST = '39.105.76.87:3268'
-HOST = 'https://xcx.collapsar.online:3268'
+HOST = 'https://xcx.collapsar.online'
 
 @transfer.route('/style_qlssh_no', methods=['POST'])
 def style_qlssh_no():
