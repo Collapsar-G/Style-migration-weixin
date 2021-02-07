@@ -6,14 +6,12 @@
 
 __author__ = 'Judgement'
 
-import base64
 import os
-import time
 import traceback
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, url_for
 
-import utils
+from app import utils
 from algorithm.test import using_model
 
 transfer = Blueprint('transfer', __name__)
@@ -22,9 +20,16 @@ basepath = os.path.abspath(os.path.dirname(__file__))
 INPUT_PATH = 'static/image/input'
 STYLE_QLSSH_PATH = 'static/image/style/qlssh.jpg'
 STYLE_QJSSH_PATH = 'static/image/style/qjssh.jpg'
-# HOST = '127.0.0.1:3268'
+HOST = '127.0.0.1:3268'
+
+
 # HOST = '39.105.76.87:3268'
-HOST = 'https://xcx.collapsar.online:3268'
+# HOST = 'https://xcx.collapsar.online:3268'
+
+@transfer.route('/test')
+def url():
+    return url_for('transfer.url', _external=True)
+
 
 @transfer.route('/style_qlssh_no', methods=['POST'])
 def style_qlssh_no():
@@ -40,7 +45,7 @@ def style_qlssh_no():
         alpha = float(param['alpha'])
         img_path = utils.base64_to_imagefile(img_base64, save_path=INPUT_PATH)
         output_img_url = using_model(img_path, STYLE_QLSSH_PATH, alpha, False)
-        img_url = HOST + '\\' + str(output_img_url)
+        img_url = HOST + '/' + str(output_img_url)
         return jsonify(url=img_url, code=200)
     except Exception:
         traceback.print_exc()
