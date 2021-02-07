@@ -28,7 +28,7 @@ def getImg():
     param = request.form.to_dict()
     img_base64 = param['image'].split(';base64,')[1]
     img_base64 = base64.b64decode(img_base64)
-    input_img_url = save_image_file('static/images/input', img_base64)
+    input_img_url = save_image_file('static/image/input', img_base64)
     output_img_url = using_model(input_img_url, "F:\style.jpg", 0, True)
     print(output_img_url)
     return jsonify(url=output_img_url, code=200)
