@@ -14,12 +14,11 @@ class Config:
 class DevelopmentConfig(Config):
     """开发者环境配置"""
     DEBUG = True
-    SERVER_NAME = '127.0.0.1:3268'
 
 
 class ProductionConfig(Config):
     """实际生产环境配置"""
-    SERVER_NAME = '0.0.0.0:3268'
+    pass
 
 
 config_map = {

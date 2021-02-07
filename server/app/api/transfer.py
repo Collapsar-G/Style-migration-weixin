@@ -24,16 +24,12 @@ HOST = '127.0.0.1:3268'
 
 
 # HOST = '39.105.76.87:3268'
-<<<<<<< HEAD:server/app/api/transfer.py
 # HOST = 'https://xcx.collapsar.online:3268'
 
 @transfer.route('/test')
 def url():
     return url_for('transfer.url', _external=True)
 
-=======
-HOST = 'https://xcx.collapsar.online'
->>>>>>> bd43e0060355b64d69cd1a4d5c597e60e3897de0:server/api/transfer.py
 
 @transfer.route('/style_qlssh_no', methods=['POST'])
 def style_qlssh_no():

@@ -10,10 +10,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from config import config_map
-from algorithm.style_api import style
-from test import test
-from app.api.transfer import transfer
-from app.api.base import base
 
 db = SQLAlchemy()
 
@@ -33,9 +29,17 @@ def create_app(name):
     db.init_app(app)
 
     # 接口
+
+    from algorithm.style_api import style
+    from test import test
+    from app.api.transfer import transfer
+    from app.api.base import base
+    from app.api.user import user
+
     app.register_blueprint(style)
     app.register_blueprint(base)
     app.register_blueprint(test, url_prefix='/test')
     app.register_blueprint(transfer, url_prefix='/transfer')
+    app.register_blueprint(user, url_prefix='/user')
 
     return app
