@@ -44,13 +44,13 @@ def login():
     return jsonify(code=200, msg='success')
 
 
-@user.route('check', methods=['GET'])
+@user.route('/check', methods=['GET'])
 def check():
     id = session.get('id')
     return id
 
 
-@user.route('logout', methods=['GET'])
+@user.route('/logout', methods=['GET'])
 def logout():
     """
     退出登录，释放资源
@@ -59,3 +59,8 @@ def logout():
     """
     session.clear()
     return jsonify(code=200, msg='quit')
+
+
+@user.route('/upload', methods=['POST'])
+def upload():
+    pass
