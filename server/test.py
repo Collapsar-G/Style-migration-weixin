@@ -54,6 +54,7 @@ def upload():
     image_url = host + '/static/image/input/' + new_name
     return jsonify(url=image_url, code=200)
 
+
 def save_image_file(image_url, data):
     if not os.path.exists(image_url):
         os.makedirs(image_url)
@@ -62,6 +63,7 @@ def save_image_file(image_url, data):
     with open(image_url, 'wb') as f:
         f.write(data)
     return image_url
+
 
 def get_imageb64_from_file(image_url):
     with open(image_url, 'rb') as f:

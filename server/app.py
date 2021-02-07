@@ -8,10 +8,12 @@ import base64
 # from os_bash import Style_
 from algorithm.style_api import style
 from test import test
+from api.transfer import transfer
 
 app = Flask(__name__)
 app.register_blueprint(style)
 app.register_blueprint(test, url_prefix='/test')
+app.register_blueprint(transfer, url_prefix='/transfer')
 
 
 @app.route('/')
