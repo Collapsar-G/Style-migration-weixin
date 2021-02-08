@@ -37,7 +37,6 @@ def login():
             db.session.add(user)
             db.session.commit()
         except Exception as e:
-            print(e)
             return jsonify(code=500, msg='database error')
 
     session['id'] = user.id

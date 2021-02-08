@@ -42,7 +42,6 @@ def style_qlssh_no():
     @return code(200=正常返回，400=错误),url:图片地址
     """
     param = request.get_json()
-    # print(param)
     img_base64 = param.get('image')
     alpha = float(param.get('alpha'))
     user_id = param.get('id')
