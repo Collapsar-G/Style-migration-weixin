@@ -22,11 +22,11 @@ basepath = os.path.abspath(os.path.dirname(__file__))
 INPUT_PATH = 'static/image/input'
 STYLE_QLSSH_PATH = 'static/image/style/qlssh.jpg'
 STYLE_QJSSH_PATH = 'static/image/style/qjssh.jpg'
-HOST = '127.0.0.1:3268'
+# HOST = '127.0.0.1:3268'
 
 
 # HOST = '39.105.76.87:3268'
-# HOST = 'https://xcx.collapsar.online:3268'
+HOST = 'https://xcx.collapsar.online'
 
 @transfer.route('/test')
 def url():
@@ -43,6 +43,7 @@ def style_qlssh_no():
     @return code(200=正常返回，400=错误),url:图片地址
     """
     param = request.get_json()
+    # print(param)
     img_base64 = param.get('image')
     alpha = float(param.get('alpha'))
     user_id = param.get('id')
