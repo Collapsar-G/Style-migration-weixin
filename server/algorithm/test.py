@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 20:00
+
+"""算法调用文件"""
+
+__author__ = 'Collapsar-G'
+
 import argparse
 from pathlib import Path
 

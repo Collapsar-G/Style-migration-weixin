@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 10:00
+
+"""工具人"""
+
+__author__ = 'Collapsar-G'
+
 import torch
 
 
@@ -12,15 +20,9 @@ def calc_mean_std(feat, eps=1e-5):  # 计算标准差、均方差
     return feat_mean, feat_std
 
 
-def adaptive_instance_normalization(content_feat, style_feat):
-    assert (content_feat.size()[:2] == style_feat.size()[:2])
-    size = content_feat.size()
-    style_mean, style_std = calc_mean_std(style_feat)
-    content_mean, content_std = calc_mean_std(content_feat)
-
-    normalized_feat = (content_feat - content_mean.expand(
-        size)) / content_std.expand(size)
-    return normalized_feat * style_std.expand(size) + style_mean.expand(size)
+def _mat_sqrt(x):
+    U, D, V = torch.svd(x)  # SVD奇异值分解
+    return torch.mm(torch.mm(U, D.pow(0.5).diag()), V.t())  # 对特征值开根号
 
 
 def _calc_feat_flatten_mean_std(feat):
@@ -33,9 +35,15 @@ def _calc_feat_flatten_mean_std(feat):
     return feat_flatten, mean, std
 
 
-def _mat_sqrt(x):
-    U, D, V = torch.svd(x)  # SVD奇异值分解
-    return torch.mm(torch.mm(U, D.pow(0.5).diag()), V.t())  # 对特征值开根号
+def adaptive_instance_normalization(content_feat, style_feat):
+    assert (content_feat.size()[:2] == style_feat.size()[:2])
+    size = content_feat.size()
+    style_mean, style_std = calc_mean_std(style_feat)
+    content_mean, content_std = calc_mean_std(content_feat)
+
+    normalized_feat = (content_feat - content_mean.expand(
+        size)) / content_std.expand(size)
+    return normalized_feat * style_std.expand(size) + style_mean.expand(size)
 
 
 def coral(source, target):

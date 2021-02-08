@@ -1,4 +1,12 @@
-# 用作随机采样
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 10:15
+
+"""随机采样"""
+
+__author__ = 'Collapsar-G'
+
+
 import numpy as np
 from torch.utils import data
 

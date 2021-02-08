@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/6 10:00
+
+"""url测试文件"""
+
+__author__ = 'Collapsar-G'
 import requests
 import simplejson
 import base64
