@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/6 15:00
+
+"""风格处理api测试文件"""
+
+__author__ = 'Collapsar-G'
+
 import os
 from PIL import Image
 import time
