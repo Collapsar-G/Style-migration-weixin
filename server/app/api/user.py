@@ -8,7 +8,7 @@ __author__ = 'Judgement'
 
 from flask import Blueprint, request, jsonify, session
 
-from app.database.models import db
+from app.database.models import db, Transfer, Image
 from app.database.models import User
 
 user = Blueprint('user', __name__)
@@ -64,3 +64,38 @@ def logout():
 @user.route('/upload', methods=['POST'])
 def upload():
     pass
+
+
+@user.route('/history', methods=['GET'])
+def history():
+    """
+    返回一个用户的历史记录
+    @return:    code(200,400,500)
+                msg
+                data:[image](images)
+                    image=  {
+                                url
+                                timestamp
+                            }
+    """
+    user_id = session['id']
+    if not user_id:
+        return jsonify(code=400, msg='user illegal')
+
+    try:
+        tables = Transfer.query \
+            .filter_by(user_id=user_id) \
+            .join(Image, Transfer.image_id == Image.id) \
+            .with_entities(Transfer.user_id, Transfer.image_id, Transfer.timestamp, Image.url) \
+            .order_by(Transfer.timestamp.desc()) \
+            .all()
+    except Exception as e:
+        return jsonify(code=500, msg='database error')
+
+    images = []
+    for item in tables:
+        image = {}
+        image['url'] = item.url
+        image['timestamp'] = item.timestamp
+        images.append(image)
+    return jsonify(code=200, msg='success', data=images)
