@@ -22,10 +22,10 @@ basepath = os.path.abspath(os.path.dirname(__file__))
 INPUT_PATH = 'static/image/input'
 STYLE_QLSSH_PATH = 'static/image/style/qlssh.jpg'
 STYLE_QJSSH_PATH = 'static/image/style/qjssh.jpg'
-HOST = '127.0.0.1:3268'
+# HOST = '127.0.0.1:3268'
+HOST = '39.105.76.87:3268'
 
 
-# HOST = '39.105.76.87:3268'
 # HOST = 'https://xcx.collapsar.online:3268'
 
 @transfer.route('/test')
@@ -58,8 +58,9 @@ def style_qlssh_no():
     try:
         image = Image(url=img_url)
         db.session.add(image)
+        db.session.flush()
         t = int(time.time())
-        relation = Transfer(user_id=id, image_id=image.id, timestamp=str(t))
+        relation = Transfer(user_id=user_id, image_id=image.id, timestamp=str(t))
         db.session.add(relation)
         db.session.commit()
         return jsonify(url=img_url, code=200, msg='success with id')
@@ -91,14 +92,14 @@ def style_qlssh_is():
     try:
         image = Image(url=img_url)
         db.session.add(image)
+        db.session.flush()
         t = int(time.time())
-        relation = Transfer(user_id=id, image_id=image.id, timestamp=str(t))
+        relation = Transfer(user_id=user_id, image_id=image.id, timestamp=str(t))
         db.session.add(relation)
         db.session.commit()
         return jsonify(url=img_url, code=200, msg='success with id')
     except Exception as e:
         return jsonify(url=img_url, code=500, msg='database error')
-
 
 
 @transfer.route('/style_qjssh_no', methods=['POST'])
@@ -125,8 +126,9 @@ def style_qjssh_no():
     try:
         image = Image(url=img_url)
         db.session.add(image)
+        db.session.flush()
         t = int(time.time())
-        relation = Transfer(user_id=id, image_id=image.id, timestamp=str(t))
+        relation = Transfer(user_id=user_id, image_id=image.id, timestamp=str(t))
         db.session.add(relation)
         db.session.commit()
         return jsonify(url=img_url, code=200, msg='success with id')
@@ -164,8 +166,9 @@ def style_qjssh_is():
     try:
         image = Image(url=img_url)
         db.session.add(image)
+        db.session.flush()
         t = int(time.time())
-        relation = Transfer(user_id=id, image_id=image.id, timestamp=str(t))
+        relation = Transfer(user_id=user_id, image_id=image.id, timestamp=str(t))
         db.session.add(relation)
         db.session.commit()
         return jsonify(url=img_url, code=200, msg='success with id')

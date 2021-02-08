@@ -18,7 +18,7 @@ class User(db.Model):
 class Image(db.Model):
     __tablename__ = 'image'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    url = db.Column(db.String(64), nullable=False)
+    url = db.Column(db.String(256), nullable=False)
 
 
 class Transfer(db.Model):
