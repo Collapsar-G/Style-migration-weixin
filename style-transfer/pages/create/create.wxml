@@ -2,15 +2,50 @@
 </cu-custom>
 <image class='background' src='../../icon/bk.png' mode="aspectFill"></image>
 
-<image class='background2' src='{{swiperList[cardCur].url}}' style="height: {{bkheight}}rpx;filter:blur(10px);" mode="aspectFill"></image>
-<image mode="widthFix" src="{{src}}" style="width:{{SPicWidth}}rpx;margin-top: {{topMargin}}rpx;margin-left: {{leftMargin}}rpx;"></image>
-<!-- <button  style='position:fixed;width:100%;' type="primary" bindtap="getChangeImage">拍照</button> -->
-<button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button>
+<image class='background2' src='{{swiperList[cardCur].url}}' style="height: {{bkheight+70}}rpx;filter:blur(10px);" mode="aspectFill" wx:if="{{IsExist == 1}}"></image>
+<image class='background2' src='../../icon/bk3.png' style="height: {{bkheight+70}}rpx;" mode="aspectFill" wx:else></image>
+<image mode="widthFix" src="{{src}}" style="width:{{SPicWidth}}rpx;margin-top: {{topMargin}}rpx;margin-left: {{leftMargin}}rpx;" wx:if="{{IsExist == 1}}"></image>
+<image bindtap="getLocalImage" src="../../icon/picture2.png" mode="widthFix" style="width:{{InsertPicWidth}}rpx;margin-top: {{InsertPicTopMargin}}rpx;margin-left: {{InsertPicLeftMargin}}rpx;" wx:else></image>
+<!-- <button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button> -->
+<view class="cu-form-group">
+    <switch class="orange sm" checked="{{keepColor}}" bindchange="changeKeepColor" style="bottom:{{btnheight+20+bkheight}}rpx;position:fixed;margin-left: 600rpx;"></switch>
+</view>
 
+<view class="showBtn">
+    <image class="certain" bindtap="showModal" data-target="DialogModal1" src="../../icon/certain.png" mode="widthFix" style="bottom:{{btnheight+40}}rpx" wx:if="{{IsExist}}"></image>
+    <image class="close" bindtap="changeStatus" src="../../icon/close.png" mode="widthFix" style="bottom:{{btnheight+40}}rpx" wx:if="{{IsExist}}"></image>
+</view>
+
+<view class="cu-modal {{modalName=='DialogModal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end" style="font-weight: bold;">
+      <view class="content">提示</view>
+    </view>
+    <view class="padding-xl" style="font-weight: bolder;">
+      是否确定生成此风格图片?
+    </view>
+    <view class="cu-bar bg-white justify-end">
+      <view class="action">
+        <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+        <button class="cu-btn bg-green margin-left" bindtap="getChangeImage">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="padding" wx:if="{{ShowProgress}}">
+  <view class="logg" >{{tips}}</view>
+  <view class="cu-progress round sm margin-top-sm striped active">
+      <view class="bg-black" style="width:{{progessLoding}}%;">{{progessLoding}}%</view>
+  </view>
+</view>
+<view class='cu-load load-modal' wx:if="{{loadModal}}">
+    <view class='gray-text'>加载中...</view>
+</view>
 
 <view class="theStyle">
     <swiper class="card-swiper" style="height:{{ljheight}}rpx !important" duration="500" bindchange="cardSwiper" >
-        <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
+        <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
             <view class="swiper-item">
                 <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
             </view>

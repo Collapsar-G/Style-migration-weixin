@@ -3,9 +3,9 @@
 
 <view class="content">
   <image class='background' src='../../icon/background3.jpg' mode="aspectFill"></image>
-  <navigator open-type="navigate" hover-class='none' url="../create/create" class="createBtn">
-      <image class="BtnPic" src="{{src}}" mode="widthFix" bind:touchstart="changePic" bind:touchend="changePicBack" style="width:100%"></image>
-  </navigator>
+  <view class='createBtn' bindtap='bindChange' animation="{{animationData}}" hidden='{{hidden}}' style="opacity:{{TheOpacity}}">
+      <image class="BtnPic" src="{{src}}" mode="widthFix" style="width:100%"></image>
+  </view>
   <!-- <view class='nav-list'>
     <navigator open-type="navigate" hover-class='none' url="../create/create" class="nav-li bg-{{item.color}}" wx:for="{{elements}}" wx:key>
       <view class="nav-title">{{item.title}}</view>

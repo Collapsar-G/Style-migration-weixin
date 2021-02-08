@@ -158,7 +158,7 @@ switch::before {
 	top: 0%;
 	left: 0rpx;
 	font-size: 26rpx;
-	line-height: 26px;
+	line-height: 70rpx;
 	width: 50%;
 	text-align: center;
 	pointer-events: none;
@@ -166,7 +166,7 @@ switch::before {
 	transition: all 0.3s ease-in-out 0s;
 	z-index: 9;
 	bottom: 0;
-	height: 26px;
+	height: 70rpx;
 	margin: auto;
 }
 
@@ -997,7 +997,7 @@ button.icon.lg {
 
 .cu-progress {
 	overflow: hidden;
-	height: 28rpx;
+	height: 60rpx;
 	background-color: #ebeef5;
 	display: inline-flex;
 	align-items: center;
@@ -1014,7 +1014,7 @@ button.icon.lg {
 }
 
 .cu-progress.sm {
-	height: 20rpx;
+	height: 60rpx;
 }
 
 .cu-progress view {
@@ -1024,7 +1024,7 @@ button.icon.lg {
 	display: flex;
 	justify-items: flex-end;
 	justify-content: space-around;
-	font-size: 20rpx;
+	font-size: 30rpx;
 	color: var(--white);
 	transition: width 0.6s ease;
 }
@@ -2356,7 +2356,6 @@ button.icon.lg {
  ==================== */
 
 .cu-form-group {
-	background-color: var(--white);
 	padding: 1rpx 30rpx;
 	display: flex;
 	align-items: center;
@@ -3506,6 +3505,9 @@ scroll-view.cu-steps .cu-item {
 .bg-white {
 	background-color: var(--white);
 	color: var(--darkGray);
+}
+.bg-DIY{
+	background-color:#323231;
 }
 
 .bg-shadeTop {
