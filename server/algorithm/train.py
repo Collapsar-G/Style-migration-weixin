@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 16:00
+
+"""算法训练文件"""
+# 此处引用 https://github.com/naoto0804/pytorch-AdaIN 开源代码，特别鸣谢
+
+__author__ = 'Collapsar-G'
+
 import argparse  # 命令行选项、参数和子命令解析器
 from pathlib import Path
 

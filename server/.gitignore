@@ -7,3 +7,11 @@
 
 #python
 *.pyc
+/xcx_venv
+
+# static
+/static
+
+# migrations
+/migrations
+

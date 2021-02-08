@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 11:00
+
+"""神经网络结构文件"""
+
+__author__ = 'Collapsar-G'
+
 import torch.nn as nn
 
 from algorithm.function import adaptive_instance_normalization as adain

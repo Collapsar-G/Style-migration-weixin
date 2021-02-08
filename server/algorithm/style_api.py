@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/6 15:00
+
+"""风格处理api测试文件"""
+
+__author__ = 'Collapsar-G'
+
 import os
 from PIL import Image
 import time
@@ -96,7 +104,7 @@ def style_glssh_no():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qlssh.jpg', False)
+    data = data_post(data, 'algorithm/input/style_in/qlssh.jpg', False)
     return simplejson.dumps(data, ensure_ascii=False)
 
 
@@ -125,7 +133,7 @@ def style_glssh_is():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qlssh.jpg', True)
+    data = data_post(data, 'algorithm/input/style_in/qlssh.jpg', True)
     return simplejson.dumps(data, ensure_ascii=False)
 
 
@@ -154,7 +162,7 @@ def style_gjssh_no():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qjssh.jpg', False)
+    data = data_post(data, 'algorithm/input/style_in/qjssh.jpg', False)
     return simplejson.dumps(data, ensure_ascii=False)
 
 
@@ -183,7 +191,7 @@ def style_gjssh_is():
     # print(result)
     # img_str = getByte(result)
     # data.append(tojson(str(alpha), str(img_str)))
-    data=data_post(data, 'algorithm/input/style_in/qjssh.jpg', True)
+    data = data_post(data, 'algorithm/input/style_in/qjssh.jpg', True)
     return simplejson.dumps(data, ensure_ascii=False)
 
 

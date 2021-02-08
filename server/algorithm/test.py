@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/5 20:00
+
+"""算法调用文件"""
+
+__author__ = 'Collapsar-G'
+
 import argparse
 from pathlib import Path
 
@@ -7,8 +15,10 @@ from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
 import cv2
-from algorithm import  net
+from algorithm import net
 from algorithm.function import adaptive_instance_normalization, coral
+
+
 # import net
 # from function import adaptive_instance_normalization, coral
 
@@ -42,7 +52,7 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0,
     return decoder(feat)
 
 
-def using_model(content, style, alpha, preserve_color=False):
+def using_model(content, style, alpha, preserve_color=False, output='static/image/output'):
     vgg_path = 'algorithm/models/vgg_normalised.pth'
     decoder_path = 'algorithm/models/decoder.pth'
     # vgg_path = './models/vgg_normalised.pth'
@@ -52,7 +62,7 @@ def using_model(content, style, alpha, preserve_color=False):
     content_size = 512  # New (minimum) size for the content image, keeping the original size if set to 0
     style_size = 512  # New (minimum) size for the style image, keeping the original size if set to 0
     save_ext = '.jpg'  # The extension name of the output image
-    output = 'output'  # Directory to save the output image(s)
+    # output = 'output'  # Directory to save the output image(s)
     style_interpolation_weights = ''  # The weight for blending the style of multiple style images
     do_interpolation = True
     crop = True
