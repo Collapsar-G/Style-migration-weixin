@@ -12,7 +12,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+		wx.request({
+			url: 'http://127.0.0.1:3268/user/login',
+			data: {
+				"id": "111111",
+				"name": "CHEN YANG"
+			},
+			method:'POST',
+			header: {
+				"Content-Type": "application/json"
+			},
+			success: function (res) {
+				console.log(res)
+			}
 
+		})
   },
 
   /**
