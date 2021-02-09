@@ -95,7 +95,6 @@ def history():
     today = datetime.date.today()
     day_10 = today - datetime.timedelta(days=10)
     day_10_start_time = int(time.mktime(time.strptime(str(day_10), '%Y-%m-%d')))
-    print(day_10_start_time)
     images = []
     for item in tables:
         if item.timestamp >= str(day_10_start_time):

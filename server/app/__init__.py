@@ -35,11 +35,13 @@ def create_app(name):
     from app.api.transfer import transfer
     from app.api.base import base
     from app.api.user import user
-
+    from app.api.feedback import feedback
     app.register_blueprint(style)
     app.register_blueprint(base)
     app.register_blueprint(test, url_prefix='/test')
     app.register_blueprint(transfer, url_prefix='/transfer')
     app.register_blueprint(user, url_prefix='/user')
+    app.register_blueprint(feedback, url_prefix='/feedback')
+
 
     return app

@@ -23,7 +23,7 @@ def getByte(path):
 
 
 if __name__ == '__main__':
-    path = './input/content/cornell.jpg'
+    path = './input/content/16pic_4054764_s.png'
     # img_str = getByte(path)
     # alpha = 1.0
     # # print(img_str)
