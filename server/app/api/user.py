@@ -11,29 +11,42 @@ import time
 import datetime
 from app.database.models import db, Transfer, Image
 from app.database.models import User
-
+import requests
 user = Blueprint('user', __name__)
+
+appid = "wx7330267cab93fa97"
+secret = "d2d27f80db202377fbb8ca9d49eab458"
 
 
 @user.route('/login', methods=['POST'])
 def login():
     """
-    @param:     id(用户的唯一标识)
-    @param:     name(用户名)
+    @param:     code
     @return:    code(200 正常，400 输入异常, 500 服务器异常)
                 msg(信息)
     """
     param = request.get_json()
-    id = param.get('id')
-    name = param.get('name')
-    if not all([id, name]):
+    # id = param.get('id')
+    # name = param.get('name')
+    code = param.get('code')
+    # if not all([id, name]):
+    #     return jsonify(code=400, msg='lack of parameters')
+    if not all([code]):
         return jsonify(code=400, msg='lack of parameters')
-
     # 先检测用户是否已在数据库
+
+    url = 'https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code'.format(
+            appid=appid, secret=secret, code=code)
+    res = requests.get(url)
+    openid = res.json().get('openid')
+    session_key = res.json().get('session_key')
+    # except:
+    #     return jsonify(code=400, msg='获取openid错误')
+    id = openid
     user = User.query.filter_by(id=id).first()
     if not user:
         # 不在数据库，入库
-        user = User(id=id, name=name)
+        user = User(id=id)
         try:
             db.session.add(user)
             db.session.commit()
@@ -41,7 +54,7 @@ def login():
             return jsonify(code=500, msg='database error')
 
     session['id'] = user.id
-    return jsonify(code=200, msg='success')
+    return jsonify(code=200, msg='success',id=id)
 
 
 @user.route('/check', methods=['GET'])
@@ -104,6 +117,7 @@ def history():
             images.append(image)
     return jsonify(code=200, msg='success', data=images)
 
+
 @user.route('/total', methods=['GET'])
 def total():
     """
@@ -125,4 +139,4 @@ def total():
             .count()
     except Exception as e:
         return jsonify(code=500, msg='database error')
-    return jsonify(code=200, msg='success',count=tables)
+    return jsonify(code=200, msg='success', count=tables)
