@@ -1,9 +1,11 @@
 <!--pages/history/history.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-white" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <view slot="content">时间轴</view>
+  <view slot="content">历史记录</view>
 </cu-custom>
+
 <view class="cu-timeline">
+  <text class="text-sm text-grey padding-sm text-center">只能保存最近10天数据</text>
   <view class="cu-time">昨天</view>
   <view class="cu-item cur cuIcon-noticefill">
     <view class="content bg-green shadow-blur">
