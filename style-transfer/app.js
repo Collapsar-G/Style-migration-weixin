@@ -1,5 +1,8 @@
 //app.js
 App({
+  globalData: {
+    openid: null
+  },
   onLaunch: function() {
     wx.getSystemInfo({
       success: e => {

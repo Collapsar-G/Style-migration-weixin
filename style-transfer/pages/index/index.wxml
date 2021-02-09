@@ -1,17 +1,11 @@
 <!-- <cu-custom bgImage = "../../icon/BasicsBg.png" >
 </cu-custom> -->
+<button class="loginApp" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"></button>
 <view class="content">
   <image class='background' src='../../icon/background3.jpg' mode="aspectFill"></image>
-  <view class='createBtn' bindtap='bindChange' animation="{{animationData}}" hidden='{{hidden}}' style="opacity:{{TheOpacity}}">
-      <image class="BtnPic" src="{{src}}" mode="widthFix" style="width:100%"></image>
+  <view class='createBtn'  hidden='{{hidden}}' style="opacity:{{TheOpacity}}">
+      <image class="BtnPic" bindtap='bindChange' animation="{{animationData}}" src="{{src}}" mode="widthFix" style="width:100%"></image>
   </view>
-  <!-- <view class='nav-list'>
-    <navigator open-type="navigate" hover-class='none' url="../create/create" class="nav-li bg-{{item.color}}" wx:for="{{elements}}" wx:key>
-      <view class="nav-title">{{item.title}}</view>
-      <view class="nav-name">{{item.name}}</view>
-      <text class='cuIcon-{{item.icon}}'></text>
-    </navigator>
-  </view> -->
 
   <view class='cu-tabbar-height'></view>
 </view>

@@ -1,3 +1,18 @@
+.loginApp{
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    width:100%;
+    height:100%;
+    position:fixed;
+    background-color: transparent;   /*按钮透明*/
+    border:none;				/*设置按钮边框*/
+    z-index: 9999;
+}
+.okbtn::after{
+    border:none；
+}
 .background {
     width: 100%;
     height: 100%;
@@ -8,6 +23,7 @@
     display: flex;
     margin-left: 175rpx;
     padding-top: 467rpx;
+    height: 400rpx;
     width: 400rpx;
     z-index: 1;
 }
