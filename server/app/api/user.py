@@ -7,7 +7,8 @@
 __author__ = 'Judgement'
 
 from flask import Blueprint, request, jsonify, session
-
+import time
+import datetime
 from app.database.models import db, Transfer, Image
 from app.database.models import User
 
@@ -68,7 +69,7 @@ def upload():
 @user.route('/history', methods=['GET'])
 def history():
     """
-    返回一个用户的历史记录
+    返回一个用户十天内的历史记录
     @return:    code(200,400,500)
                 msg
                 data:[image](images)
@@ -91,11 +92,38 @@ def history():
     except Exception as e:
         return jsonify(code=500, msg='database error')
 
+    today = datetime.date.today()
+    day_10 = today - datetime.timedelta(days=10)
+    day_10_start_time = int(time.mktime(time.strptime(str(day_10), '%Y-%m-%d')))
+    print(day_10_start_time)
     images = []
     for item in tables:
-        image = {}
-        image['url'] = item.url
-        image['timestamp'] = item.timestamp
-        images.append(image)
+        if item.timestamp >= str(day_10_start_time):
+            image = {}
+            image['url'] = item.url
+            image['timestamp'] = item.timestamp
+            images.append(image)
     return jsonify(code=200, msg='success', data=images)
 
+@user.route('/total', methods=['GET'])
+def total():
+    """
+        返回一个用户的累积使用次数
+        @return:    code(200,400,500)
+                    msg
+                    count
+        """
+    user_id = session['id']
+    if not user_id:
+        return jsonify(code=400, msg='user illegal')
+
+    try:
+        tables = Transfer.query \
+            .filter_by(user_id=user_id) \
+            .join(Image, Transfer.image_id == Image.id) \
+            .with_entities(Transfer.user_id, Transfer.image_id, Transfer.timestamp, Image.url) \
+            .order_by(Transfer.timestamp.desc()) \
+            .count()
+    except Exception as e:
+        return jsonify(code=500, msg='database error')
+    return jsonify(code=200, msg='success',count=tables)
