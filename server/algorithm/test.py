@@ -17,10 +17,9 @@ from torchvision.utils import save_image
 import cv2
 from algorithm import net
 from algorithm.function import adaptive_instance_normalization, coral
-
-
 # import net
 # from function import adaptive_instance_normalization, coral
+import numpy as np
 
 
 def test_transform(size, crop):
@@ -53,18 +52,15 @@ def style_transfer(vgg, decoder, content, style, alpha=1.0,
 
 
 def using_model(content, style, alpha, preserve_color=False, output='static/image/output'):
+    global output_name
     vgg_path = 'algorithm/models/vgg_normalised.pth'
     decoder_path = 'algorithm/models/decoder.pth'
     # vgg_path = './models/vgg_normalised.pth'
     # decoder_path = './models/decoder.pth'
-    content_dir = ''
-    style_dir = ''
+
     content_size = 512  # New (minimum) size for the content image, keeping the original size if set to 0
     style_size = 512  # New (minimum) size for the style image, keeping the original size if set to 0
     save_ext = '.jpg'  # The extension name of the output image
-    # output = 'output'  # Directory to save the output image(s)
-    style_interpolation_weights = ''  # The weight for blending the style of multiple style images
-    do_interpolation = True
     crop = True
 
     do_interpolation = False
@@ -74,29 +70,14 @@ def using_model(content, style, alpha, preserve_color=False, output='static/imag
     output_dir = Path(output)
     output_dir.mkdir(exist_ok=True, parents=True)
 
-    # Either --content or --contentDir should be given.
-    assert (content or content_dir)
-    if content:
-        content_paths = [Path(content)]
-    else:
-        content_dir = Path(content_dir)
-        content_paths = [f for f in content_dir.glob('*')]
+    # Either --content  should be given.
+    # assert (content or content_dir)
+    assert content
 
-    # Either --style or --styleDir should be given.
-    assert (style or style_dir)
-    if style:
-        style_paths = style.split(',')
-        if len(style_paths) == 1:
-            style_paths = [Path(style)]
-        else:
-            do_interpolation = True
-            assert (style_interpolation_weights != ''), \
-                'Please specify interpolation weights'
-            weights = [int(i) for i in style_interpolation_weights.split(',')]
-            interpolation_weights = [w / sum(weights) for w in weights]
-    else:
-        style_dir = Path(style_dir)
-        style_paths = [f for f in style_dir.glob('*')]
+    content_paths = [Path(content)]
+    assert style
+
+    style_paths = [Path(style)]
 
     decoder = net.decoder
     vgg = net.vgg
@@ -115,41 +96,37 @@ def using_model(content, style, alpha, preserve_color=False, output='static/imag
     style_tf = test_transform(style_size, crop)
 
     for content_path in content_paths:
-        if do_interpolation:  # one content image, N style image
-            style = torch.stack([style_tf(Image.open(str(p))) for p in style_paths])
-            content = content_tf(Image.open(str(content_path))) \
-                .unsqueeze(0).expand_as(style)
-            style = style.to(device)
-            content = content.to(device)
+        for style_path in style_paths:
+            img_content = Image.open(str(content_path))
+            (h, w) = img_content.size
+            size_image = h
+            if w > h:
+                size_image = w
+            img_content_resize = img_content.resize((size_image, size_image))
+            content = content_tf(img_content_resize)
+            style = style_tf(Image.open(str(style_path)))
+            if preserve_color:
+                style = coral(style, content)
+            style = style.to(device).unsqueeze(0)
+            content = content.to(device).unsqueeze(0)
             with torch.no_grad():
                 output = style_transfer(vgg, decoder, content, style,
-                                        alpha, interpolation_weights)
+                                        alpha)
             output = output.cpu()
+            output_resize = (transforms.ToPILImage()(output[0]).convert('RGB')).resize((h,w))
+            # output_resize.show()
+            # output_array = output.numpy()
+            # output_resize = Image.fromarray(output_array[0][0]).resize((h,w))
+            # output_array = torch.from_numpy(np.array(output_resize))
             output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
                 content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
-            save_image(output, str(output_name))
-
-        else:  # process one content and one style
-            for style_path in style_paths:
-                content = content_tf(Image.open(str(content_path)))
-                style = style_tf(Image.open(str(style_path)))
-                if preserve_color:
-                    style = coral(style, content)
-                style = style.to(device).unsqueeze(0)
-                content = content.to(device).unsqueeze(0)
-                with torch.no_grad():
-                    output = style_transfer(vgg, decoder, content, style,
-                                            alpha)
-                output = output.cpu()
-
-                output_name = output_dir / '{:s}_stylized_{:s}_alpha_{:s}_preserve_color_{:s}{:s}'.format(
-                    content_path.stem, style_path.stem, str(alpha), str(preserve_color), save_ext)
-                save_image(output, str(output_name))
+            # save_image(output, str(output_name))
+            output_resize.save(str(output_name))
         return output_name
 
 
 if __name__ == '__main__':
-    img01 = cv2.imread(str(using_model('./input/content/sh1.jpg', './input/style_in/qjssh.jpeg', 1.0, False)))
+    img01 = cv2.imread(str(using_model('./input/content/flowers.jpg', './input/style_in/qjssh.jpeg', 1.0, False)))
     img_medianBlur = cv2.medianBlur(img01, 3)
     cv2.imshow('1', img_medianBlur)
     cv2.waitKey(0)
