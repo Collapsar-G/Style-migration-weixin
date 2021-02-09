@@ -24,11 +24,9 @@ def feedback_content():
     """
         意见反馈s
         @param content:用户反馈的内容
-        @param id:用户id，必须
         @return code(200=正常返回，400=错误),url:图片地址
         """
     param = request.get_json()
-    user_id = param.get('id')
     content = param.get('content')
     if not all([content, user_id]):
         return jsonify(code=400, msg='lack of parameters')
