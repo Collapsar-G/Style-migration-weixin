@@ -12,6 +12,8 @@
     position: fixed;
     bottom: 0;
     left: 0;
+    border-top-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
 
 }
 .background2 {
@@ -31,11 +33,13 @@
     width:100rpx;
     position: fixed;
     margin-left: 60rpx;
+    z-index: 5;
 }
 .close{
     width:100rpx;
     position:fixed;
     margin-left: 590rpx;
+    z-index: 5;
 }
 .padding{
     position: fixed;
@@ -70,8 +74,9 @@
     text-align: center;
     margin-left: 82rpx;
     border-radius: 20rpx;
-    font-weight: bold;
+    font-weight:bold;
     position:relative;
+    opacity: 0.7;
 }
 .bg {
     display: none;
@@ -85,4 +90,14 @@
     -moz-opacity: 0.7;
     opacity: 0.70;
     filter: alpha(opacity=70);
+}
+.body-view{
+    display: flex;
+    flex-direction: column;
+}
+.alpha{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    opacity: 0.7;
 }

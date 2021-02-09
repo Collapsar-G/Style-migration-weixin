@@ -27,7 +27,7 @@ Page({
     btnheight:0,
     ljheight:0,
     bkheight:0,
-    alpha:0.5,
+    alpha:50,
     SPicWidth:0,
     SPicHeight:0,
     PicWidth:0,
@@ -46,7 +46,12 @@ Page({
     tips:'正在生成中...',
     lock:1,
     keepColor:0,
-    hideDisplay:''
+    hideDisplay:'',
+    success:0,
+    getReply:0,
+    showBtn:1,
+    openSettingBtnHidden:true,
+    HaveSave:0
   },
   onLoad() {
     let that = this
@@ -97,6 +102,16 @@ Page({
   hideModal() {
     this.setData({
       modalName: null
+    })
+  },
+  showModal2(e) {
+    this.setData({
+      modalName2: e.currentTarget.dataset.target
+    })
+  },
+  hideModal2() {
+    this.setData({
+      modalName2: null
     })
   },
   changeStatus:function(){
@@ -200,15 +215,27 @@ Page({
         function () {
             let temp = that.data.progessLoding + that.data.speed;
             temp = temp>100?100:temp
-            that.setData({
-              progessLoding: temp
-            })
             if(that.data.progessLoding == 100){
+                if(that.data.getReply){
+                  if(that.data.success){
+                    that.setData({
+                      lock : 0,
+                      tips:'生成成功',
+                    })
+                  }
+                  else{
+                    that.setData({
+                      lock : 0,
+                      tips:'生成失败',
+                    })
+                  }
+                  clearInterval(that.data.setInter);
+                }
+            }
+            else{
               that.setData({
-                lock : 0,
-                tips:'生成成功',
+                progessLoding: temp
               })
-              clearInterval(that.data.setInter);
             }
         }
     , 200)
@@ -217,27 +244,58 @@ Page({
       data: {
         id:"111111",
         image:test,
-        alpha:0
+        alpha:that.data.alpha/100
       },
       header: {
         'content-type': 'application/json' // 默认值
       },
       method: 'POST',
       success: (result)=>{
-        that.setData({
-          speed:3
-        }),
+        if(result.data.code !=200){
+          that.setData({
+            speed:3,
+            success:0,
+            getReply:1
+          })
+        }
+        else{
+          that.setData({
+            speed:3,
+            success:1,
+            getReply:1
+          })
+        }
         that.data.setInter2 = setInterval(
           function () {
               if(that.data.lock == 0){
-                that.setData({
-                  tips:'正在生成中...',
-                  lock:1,
-                  ShowProgress:0,
-                  progessLoding:0,
-                  hideDisplay:'',
-                  speed:1,
-                })
+                if(that.data.success){
+                  that.setData({
+                    tips:'正在生成中...',
+                    lock:1,
+                    ShowProgress:0,
+                    progessLoding:0,
+                    hideDisplay:'',
+                    speed:1,
+                    src:result.data.url,
+                    success:0,
+                    getReply:0,
+                    showBtn:0,
+                    alpha:50
+                  })
+                }
+                else{
+                  that.setData({
+                    tips:'正在生成中...',
+                    lock:1,
+                    ShowProgress:0,
+                    progessLoding:0,
+                    hideDisplay:'',
+                    speed:1,
+                    success:0,
+                    getReply:0,
+                    alpha:50
+                  })
+                }
                 clearInterval(that.data.setInter2);
               }
           }
@@ -254,5 +312,91 @@ Page({
     })
   },
   catchtouchmove(){
-  }
+  },
+  slider(e){
+    this.setData({
+      alpha:e.detail.value
+    })
+  },
+  closeCreate:function(){
+    this.hideModal2()
+    this.setData({
+      IsExist:0,
+      showBtn:1,
+      src:'',
+      HaveSave:0
+    })
+  },
+  saveImg:function(e){
+    if(this.data.HaveSave){
+      wx.showToast({
+        title: '您已保存图片',
+        icon: 'none',
+        duration: 1500
+      })
+      return;
+    }
+    let that = this;
+
+    //获取相册授权
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success() {
+              //这里是用户同意授权后的回调
+              that.saveImgToLocal();
+            },
+            fail() {//这里是用户拒绝授权后的回调
+              that.setData({
+                openSettingBtnHidden: false
+              })
+            }
+          })
+        } else {//用户已经授权过了
+          that.saveImgToLocal();
+        }
+      }
+    })
+
+  },
+  saveImgToLocal: function (e) {
+    let that = this;
+    let imgSrc = that.data.src;
+    wx.showLoading({
+      title: '保存图片中',
+    })
+    console.log(imgSrc);
+    wx.downloadFile({
+      url: imgSrc,
+      success: function (res) {
+        //图片保存到本地
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function (data) {
+            wx.hideLoading()
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            })
+            that.setData({
+              HaveSave:1
+            })
+          },
+          fail:function(data){
+            wx.hideLoading()
+            wx.showToast({
+              title: '保存失败',
+              icon: 'error',
+              duration: 2000
+            })
+          }
+        })
+      }
+    })
+
+  },
+
 })

@@ -1,6 +1,5 @@
 <!-- <cu-custom bgImage = "../../icon/BasicsBg.png" >
 </cu-custom> -->
-
 <view class="content">
   <image class='background' src='../../icon/background3.jpg' mode="aspectFill"></image>
   <view class='createBtn' bindtap='bindChange' animation="{{animationData}}" hidden='{{hidden}}' style="opacity:{{TheOpacity}}">
