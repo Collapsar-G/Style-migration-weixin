@@ -28,7 +28,7 @@ def feedback_content():
         """
     param = request.get_json()
     content = param.get('content')
-    if not all([content, user_id]):
+    if not all([content]):
         return jsonify(code=400, msg='lack of parameters')
     try:
         key = "这是一个秘密"  # your-key
