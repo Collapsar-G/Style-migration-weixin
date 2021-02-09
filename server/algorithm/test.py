@@ -126,7 +126,7 @@ def using_model(content, style, alpha, preserve_color=False, output='static/imag
 
 
 if __name__ == '__main__':
-    img01 = cv2.imread(str(using_model('./input/content/flowers.jpg', './input/style_in/qjssh.jpeg', 1.0, False)))
+    img01 = cv2.imread(str(using_model('./input/content/16pic_4054764_s.png', './input/style/harvard_0.jpg', 1.0, False)))
     img_medianBlur = cv2.medianBlur(img01, 3)
     cv2.imshow('1', img_medianBlur)
     cv2.waitKey(0)
