@@ -22,10 +22,10 @@ basepath = os.path.abspath(os.path.dirname(__file__))
 INPUT_PATH = 'static/image/input'
 STYLE_QLSSH_PATH = 'static/image/style/qlssh.jpg'
 STYLE_QJSSH_PATH = 'static/image/style/qjssh.jpg'
-HOST = '127.0.0.1:3268'
+# HOST = '127.0.0.1:3268'
 
 # HOST = '39.105.76.87:3268'
-# HOST = 'https://xcx.collapsar.online'
+HOST = 'https://xcx.collapsar.online'
 
 @transfer.route('/test')
 def url():
@@ -51,6 +51,7 @@ def style_qlssh_no():
     img_path = utils.base64_to_imagefile(img_base64, save_path=INPUT_PATH)
     output_img_url = using_model(img_path, STYLE_QLSSH_PATH, alpha, False)
     img_url = HOST + '/' + str(output_img_url)
+    print(img_url)
     if not user_id:
         return jsonify(url=img_url, code=200, msg='success without id')
 
