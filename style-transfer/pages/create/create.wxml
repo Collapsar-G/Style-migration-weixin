@@ -7,7 +7,7 @@
 <image mode="widthFix" src="{{src}}" style="width:{{SPicWidth}}rpx;margin-top: {{topMargin}}rpx;margin-left: {{leftMargin}}rpx;" wx:if="{{IsExist == 1}}"></image>
 <image bindtap="getLocalImage" src="../../icon/picture2.png" mode="widthFix" style="width:{{InsertPicWidth}}rpx;margin-top: {{InsertPicTopMargin}}rpx;margin-left: {{InsertPicLeftMargin}}rpx;" wx:else></image>
 <!-- <button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button> -->
-<view class="cu-form-group">
+<view class="cu-form-group" wx:if="{{IsExist == 1}}">
     <switch class="orange sm" checked="{{keepColor}}" bindchange="changeKeepColor" style="bottom:{{btnheight+20+bkheight}}rpx;position:fixed;margin-left: 600rpx;"></switch>
 </view>
 
@@ -32,14 +32,14 @@
     </view>
   </view>
 </view>
-
-<view class="padding" wx:if="{{ShowProgress}}">
+<view class="bg" bindtap='catchtouchmove' style='display:{{hideDisplay}}'></view>
+<view class="padding" wx:if="{{ShowProgress}}" catchtouchmove="catchtouchmove">
   <view class="logg" >{{tips}}</view>
   <view class="cu-progress round sm margin-top-sm striped active">
       <view class="bg-black" style="width:{{progessLoding}}%;">{{progessLoding}}%</view>
   </view>
 </view>
-<view class='cu-load load-modal' wx:if="{{loadModal}}">
+<view class='cu-load load-modal' wx:if="{{loadModal}}" catchtouchmove="catchtouchmove">
     <view class='gray-text'>加载中...</view>
 </view>
 
@@ -48,6 +48,7 @@
         <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
             <view class="swiper-item">
                 <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+                <view class="name"  style="background-color: #ffffff;width:60%;height:40rpx;z-index: 100;">{{item.name}}</view>
             </view>
         </swiper-item>
     </swiper>

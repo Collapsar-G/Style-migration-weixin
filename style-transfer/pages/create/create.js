@@ -6,11 +6,13 @@ Page({
     swiperList: [{
       id: 0,
       type: 'image',
-      url: '../../icon/qlssh.jpg'
+      url: '../../icon/qlssh.jpg',
+      name: '《青绿山水图》'
     }, {
       id: 1,
         type: 'image',
         url: '../../icon/qjssh.jpg',
+        name: '《浮玉山居图》'
     }],
     classList:[["https://xcx.collapsar.online/transfer/style_qlssh_no",
     "https://xcx.collapsar.online/transfer/style_qjssh_no"
@@ -43,7 +45,8 @@ Page({
     ShowProgress:0,
     tips:'正在生成中...',
     lock:1,
-    keepColor:0
+    keepColor:0,
+    hideDisplay:''
   },
   onLoad() {
     let that = this
@@ -179,7 +182,8 @@ Page({
   },
   getChangeImage:function(){
     this.setData({
-      loadModal: true
+      loadModal: true,
+      hideDisplay: "block"
     })
     let that = this;
     let test ="data:image/"+this.data.PicType+";base64,"+wx.getFileSystemManager().readFileSync(this.data.src, "base64")
@@ -213,7 +217,7 @@ Page({
       data: {
         id:"111111",
         image:test,
-        alpha:that.data.alpha
+        alpha:0
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -231,6 +235,7 @@ Page({
                   lock:1,
                   ShowProgress:0,
                   progessLoding:0,
+                  hideDisplay:'',
                   speed:1,
                 })
                 clearInterval(that.data.setInter2);
@@ -248,4 +253,6 @@ Page({
       cardCur: e.detail.current
     })
   },
+  catchtouchmove(){
+  }
 })
