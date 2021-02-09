@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+		count:0
   },
 
   /**
@@ -13,6 +13,7 @@ Page({
    */
   onLoad: function (options) {
 
+		//TODO 请求，设置count。
   },
 
   /**

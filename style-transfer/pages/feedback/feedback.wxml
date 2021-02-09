@@ -1,0 +1,12 @@
+<!--pages/feedback/feedback.wxml-->
+<!--miniprogram/pages/user_centre/feedback/feedback.wxml-->
+<cu-custom bgColor="bg-white" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">意见反馈</view>
+</cu-custom>
+<view class="padding-sm">您的问题与意见:</view>
+<textarea class="bg-white padding" placeholder="请输入反馈" value="{{inputValue}}" bindinput="textareaInputListener" style="width:100%"></textarea>
+
+<view style="height:80rpx"></view>
+<button class="bg-red margin-sm" bindtap="sendFeedback">发送</button>
+
