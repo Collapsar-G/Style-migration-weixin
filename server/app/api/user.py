@@ -98,3 +98,4 @@ def history():
         image['timestamp'] = item.timestamp
         images.append(image)
     return jsonify(code=200, msg='success', data=images)
+
