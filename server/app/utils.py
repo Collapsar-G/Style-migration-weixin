@@ -32,7 +32,7 @@ def base64_to_imagefile(image_base64: str, save_path: str):
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    t = int(time.time())
+    t = int(round(time.time()*1000))
     img_path = f"{save_path}/{t}.{img_type}"
 
     im = Image.open(BytesIO(img))

@@ -190,7 +190,7 @@ def style_any_no():
         return jsonify(code=400, msg='lack of parameters')
 
     img_style_path = utils.base64_to_imagefile(img_style_base64, save_path=INPUT_PATH)
-    time.sleep(1)
+    time.sleep(0.001)
     image_content_path = utils.base64_to_imagefile(image_content_base64, save_path=INPUT_PATH)
     output_img_url = using_model(image_content_path, img_style_path, alpha, False)
     img_url = HOST + '/' + str(output_img_url)
@@ -229,7 +229,7 @@ def style_any_is():
         return jsonify(code=400, msg='lack of parameters')
 
     img_style_path = utils.base64_to_imagefile(img_style_base64, save_path=INPUT_PATH)
-    time.sleep(1)
+    time.sleep(0.001)
     image_content_path = utils.base64_to_imagefile(image_content_base64,save_path=INPUT_PATH)
     output_img_url = using_model(image_content_path, img_style_path, alpha, True)
     img_url = HOST + '/' + str(output_img_url)
