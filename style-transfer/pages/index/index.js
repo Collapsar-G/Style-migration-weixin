@@ -62,6 +62,8 @@ Page({
           success: function (res) {
             console.log(res) //获取openid
             app.globalData.openid = res.data.id;
+            app.globalData.hasLogin = true;
+						app.globalData.cookie = res.cookies
           }
         })
       }

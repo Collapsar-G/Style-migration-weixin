@@ -1,6 +1,6 @@
 <!-- <cu-custom bgImage = "../../icon/BasicsBg.png" >
 </cu-custom> -->
-<button class="loginApp" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"></button>
+<!-- <button class="loginApp" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"></button> -->
 <view class="content">
   <image class='background' src='../../icon/background3.jpg' mode="aspectFill"></image>
   <view class='createBtn'  hidden='{{hidden}}' style="opacity:{{TheOpacity}}">

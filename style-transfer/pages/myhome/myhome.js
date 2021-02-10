@@ -6,31 +6,39 @@ Page({
    * 页面的初始数据
    */
   data: {
-    count: 0
+    count: 0,
+    Login: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-		const thiz = this
-		console.log(app.globalData.cookie)
-    //请求，设置count。接口有bug
+    const thiz = this
+    if (!app.globalData.hasLogin) {
+      wx.navigateTo({
+        url: '../login/login'
+      })
+    }
+    this.setData({
+      Login: app.globalData.hasLogin
+    })
+
     wx.request({
       url: 'https://xcx.collapsar.online/user/total',
       method: 'GET',
-			header: {
-				'Cookie': app.globalData.cookie[0]
-			},
+      header: {
+        'Cookie': app.globalData.cookie[0]
+      },
       success: function(res) {
         console.log(res) //获取openid
-				thiz.setData({
-					count:res.data.count
-				})		
+        thiz.setData({
+          count: res.data.count
+        })
       }
     })
-  },
 
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -42,7 +50,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    console.log(app.globalData.hasLogin)
+    this.setData({
+      Login: app.globalData.hasLogin
+    })
   },
 
   /**
