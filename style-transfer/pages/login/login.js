@@ -71,7 +71,17 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if(app.globalData.hasLogin){
+      wx.switchTab({
+        url: '../../pages/myhome/myhome'
+      })
+    }
+    else{
+      app.globalData.hasBackIndex = true
+      wx.switchTab({
+        url: '../../pages/index/index'
+      })
+    }
   },
 
   /**
