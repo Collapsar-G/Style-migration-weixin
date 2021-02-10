@@ -1,4 +1,4 @@
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}" bgImage="https://s3.ax1x.com/2021/02/05/yGp6pt.jpg">
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}" bgImage="https://s3.ax1x.com/2021/02/05/yGp6pt.jpg" style="font-weight: bolder;">
 </cu-custom>
 <image class='background' src='../../icon/bk.png' mode="aspectFill"></image>
 

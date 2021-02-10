@@ -28,7 +28,7 @@ Page({
       url: 'https://xcx.collapsar.online/user/total',
       method: 'GET',
       header: {
-        'Cookie': app.globalData.cookie
+        'Cookie': app.globalData.cookie[0]
       },
       success: function(res) {
         console.log(res) //获取openid
