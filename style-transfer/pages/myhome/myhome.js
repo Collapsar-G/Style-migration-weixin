@@ -15,28 +15,6 @@ Page({
    */
   onLoad: function(options) {
     const thiz = this
-    // if (!app.globalData.hasLogin) {
-    //   wx.navigateTo({
-    //     url: '../login/login'
-    //   })
-    // }
-    // this.setData({
-    //   Login: app.globalData.hasLogin
-    // })
-
-    wx.request({
-      url: 'https://xcx.collapsar.online/user/total',
-      method: 'GET',
-      header: {
-        'Cookie': app.globalData.cookie[0]
-      },
-      success: function(res) {
-        console.log(res) //获取openid
-        thiz.setData({
-          count: res.data.count
-        })
-      }
-    })
 
   },
   /**
@@ -50,16 +28,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // if(!app.globalData.hasBackIndex){
-    //   if(!app.globalData.hasLogin){
-    //     wx.navigateTo({
-    //       url: '../login/login'
-    //     })
-    //   }
-    //   this.setData({
-    //     Login:app.globalData.hasLogin
-    //   })
-    // }
+		const thiz = this
+
+
+		wx.request({
+			url: 'https://xcx.collapsar.online/user/total',
+			method: 'GET',
+			header: {
+				'Cookie': app.globalData.cookie[0]
+			},
+			success: function (res) {
+				console.log(res) //获取openid
+				thiz.setData({
+					count: res.data.count
+				})
+			}
+		})
+
+
   },
 
   /**
