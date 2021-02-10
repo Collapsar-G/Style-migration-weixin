@@ -3,9 +3,9 @@
   <view class="UCenter-bg">
     <view class="userinfo">
       <view class="userinfo-avatar">
-        <open-data type="{{Login?'userAvatarUrl':''}}"></open-data>
+        <open-data type="userAvatarUrl"></open-data>
       </view>
-      <open-data class="name" type="{{Login?'userNickName':''}}"></open-data>
+      <open-data class="name" type="userNickName"></open-data>
     </view>
     <image src="https://raw.githubusercontent.com/weilanwl/ColorUI/master/demo/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>

@@ -26,22 +26,23 @@ Page({
   onLoad() {
     // 查看是否授权
     let that = this
-    wx.getSetting({
-      success (res){
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          that.Login()
-          wx.getUserInfo({
-            success: function(res) {
-              console.log(res.userInfo)
-            }
-          })
-          that.setData({
-            canIUse:false
-          })
-        }
-      }
-    })
+    that.Login()
+    // wx.getSetting({
+    //   success (res){
+    //     if (res.authSetting['scope.userInfo']) {
+    //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+    //       that.Login()
+    //       wx.getUserInfo({
+    //         success: function(res) {
+    //           console.log(res.userInfo)
+    //         }
+    //       })
+    //       that.setData({
+    //         canIUse:false
+    //       })
+    //     }
+    //   }
+    // })
   },
   onShow: function () {
     app.globalData.hasBackIndex = false

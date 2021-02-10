@@ -7,7 +7,7 @@ Page({
    */
   data: {
     count: 0,
-    Login: false
+    // Login: false
   },
 
   /**
@@ -15,14 +15,6 @@ Page({
    */
   onLoad: function(options) {
     const thiz = this
-    if (!app.globalData.hasLogin) {
-      wx.navigateTo({
-        url: '../login/login'
-      })
-    }
-    this.setData({
-      Login: app.globalData.hasLogin
-    })
 
   },
   /**
@@ -37,17 +29,6 @@ Page({
    */
   onShow: function () {
 		const thiz = this
-		
-    if(!app.globalData.hasBackIndex){
-      if(!app.globalData.hasLogin){
-        wx.navigateTo({
-          url: '../login/login'
-        })
-      }
-      this.setData({
-        Login:app.globalData.hasLogin
-      })
-    }
 
 
 		wx.request({
@@ -63,6 +44,7 @@ Page({
 				})
 			}
 		})
+
 
   },
 

@@ -50,6 +50,7 @@ page {
 	--gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);
 	--gradualPink: linear-gradient(45deg, #ec008c, #6739b6);
 	--gradualBlue: linear-gradient(45deg, #0081ff, #1cbbb4);
+	--gradualMo: linear-gradient(45deg, #ffffff, #000000);
 	/* 阴影透明色 */
 	--ShadowSize: 6rpx 6rpx 8rpx;
 	--redShadow: rgba(204, 69, 59, 0.2);
@@ -157,7 +158,7 @@ switch::before {
 	top: 0%;
 	left: 0rpx;
 	font-size: 26rpx;
-	line-height: 26px;
+	line-height: 70rpx;
 	width: 50%;
 	text-align: center;
 	pointer-events: none;
@@ -165,7 +166,7 @@ switch::before {
 	transition: all 0.3s ease-in-out 0s;
 	z-index: 9;
 	bottom: 0;
-	height: 26px;
+	height: 70rpx;
 	margin: auto;
 }
 
@@ -996,7 +997,7 @@ button.icon.lg {
 
 .cu-progress {
 	overflow: hidden;
-	height: 28rpx;
+	height: 60rpx;
 	background-color: #ebeef5;
 	display: inline-flex;
 	align-items: center;
@@ -1013,7 +1014,7 @@ button.icon.lg {
 }
 
 .cu-progress.sm {
-	height: 20rpx;
+	height: 60rpx;
 }
 
 .cu-progress view {
@@ -1023,7 +1024,7 @@ button.icon.lg {
 	display: flex;
 	justify-items: flex-end;
 	justify-content: space-around;
-	font-size: 20rpx;
+	font-size: 30rpx;
 	color: var(--white);
 	transition: width 0.6s ease;
 }
@@ -2039,7 +2040,7 @@ button.icon.lg {
 	content: "";
 	display: block;
 	position: absolute;
-	width: 2rpx;
+	width: 1rpx;
 	background-color: #ddd;
 	left: 60rpx;
 	height: 100%;
@@ -2355,7 +2356,6 @@ button.icon.lg {
  ==================== */
 
 .cu-form-group {
-	background-color: var(--white);
 	padding: 1rpx 30rpx;
 	display: flex;
 	align-items: center;
@@ -2617,14 +2617,14 @@ swiper.round-dot .wx-swiper-dot.wx-swiper-dot-active {
 }
 
 .card-swiper {
-	height: 420rpx !important;
+	
 }
 
 .card-swiper swiper-item {
-	width: 610rpx !important;
-	left: 70rpx;
+	width: 410rpx !important;
+	left: 170rpx;
 	box-sizing: border-box;
-	padding: 40rpx 0rpx 70rpx;
+	padding: 40rpx 0rpx 30rpx;
 	overflow: initial;
 }
 
@@ -3506,6 +3506,9 @@ scroll-view.cu-steps .cu-item {
 	background-color: var(--white);
 	color: var(--darkGray);
 }
+.bg-DIY{
+	background-color:#323231;
+}
 
 .bg-shadeTop {
 	background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.01));
@@ -3599,6 +3602,11 @@ scroll-view.cu-steps .cu-item {
 
 .bg-gradual-pink {
 	background-image: var(--gradualPink);
+	color: var(--white);
+}
+
+.bg-gradual-Mo {
+	background-image: var(--grayShadow);
 	color: var(--white);
 }
 
