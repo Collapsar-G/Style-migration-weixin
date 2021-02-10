@@ -7,7 +7,7 @@ Page({
    */
   data: {
     images:[],
-
+		loading:true
   },
 
   preview: function(event) {
@@ -36,16 +36,8 @@ Page({
   },
 
 	saveImg: function (e) {
-		if (this.data.HaveSave) {
-			wx.showToast({
-				title: '您已保存图片',
-				icon: 'none',
-				duration: 1500
-			})
-			return;
-		}
 		let that = this;
-
+		console.log(e)
 		//获取相册授权
 		wx.getSetting({
 			success(res) {
@@ -54,16 +46,14 @@ Page({
 						scope: 'scope.writePhotosAlbum',
 						success() {
 							//这里是用户同意授权后的回调
-							that.saveImgToLocal();
+							that.saveImgToLocal(e);
 						},
 						fail() {//这里是用户拒绝授权后的回调
-							that.setData({
-								openSettingBtnHidden: false
-							})
+
 						}
 					})
 				} else {//用户已经授权过了
-					that.saveImgToLocal();
+					that.saveImgToLocal(e);
 				}
 			}
 		})
@@ -71,7 +61,7 @@ Page({
 	},
 	saveImgToLocal: function (e) {
 		let that = this;
-		let imgSrc = that.data.src;
+		let imgSrc = e.currentTarget.dataset.url;
 		wx.showLoading({
 			title: '保存图片中',
 		})
@@ -88,9 +78,6 @@ Page({
 							title: '保存成功',
 							icon: 'success',
 							duration: 2000
-						})
-						that.setData({
-							HaveSave: 1
 						})
 					},
 					fail: function (data) {
@@ -168,10 +155,17 @@ Page({
 					local_images.push(itemJson)
 
 					thiz.setData({
-						images: local_images
+						images: local_images,
+						loading: false
 					})
 				} else {
 					//提示与服务器连接失败
+					wx.showToast({
+						title: '服务器连接失败',
+						icon: 'error',
+						duration: 2000
+					})
+				
 				}
 
 

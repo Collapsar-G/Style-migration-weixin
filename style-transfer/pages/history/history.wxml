@@ -15,10 +15,15 @@
     <view class="content">
       <view class='flex justify-between margin-bottom-sm align-center'>
         <view class="cu-tag line-grey">{{item2.time}}</view>
-        <button class="cu-btn bg-red round" bindtap="saveImg">保存</button>
+        <button class="cu-btn bg-red round" bindtap="saveImg" data-url="{{item2.url}}">保存</button>
       </view>
 
       <image src="{{item2.url}}" data-url="{{item2.url}}" bindtap="preview" mode="aspectFill"></image>
     </view>
   </view>
+</view>
+
+<!-- 加载 -->
+<view class="padding-sm text-center">
+	<image wx:if="{{loading}}" class="gif-white response" mode="aspectFit" src="/icon/loading.gif" style="height:150rpx;"></image>
 </view>
