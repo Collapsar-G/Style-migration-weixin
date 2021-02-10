@@ -242,7 +242,7 @@ Page({
     wx.request({
       url: that.data.classList[that.data.keepColor][that.data.cardCur],
       data: {
-        id:"111111",
+        id:app.globalData.openid,
         image:test,
         alpha:that.data.alpha/100
       },

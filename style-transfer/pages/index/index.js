@@ -43,6 +43,9 @@ Page({
       }
     })
   },
+  onShow: function () {
+    app.globalData.hasBackIndex = false
+  },
   Login:function(){
     wx.login({
       success: res => {

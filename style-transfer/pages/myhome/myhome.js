@@ -49,11 +49,17 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-    console.log(app.globalData.hasLogin)
-    this.setData({
-      Login: app.globalData.hasLogin
-    })
+  onShow: function () {
+    if(!app.globalData.hasBackIndex){
+      if(!app.globalData.hasLogin){
+        wx.navigateTo({
+          url: '../login/login'
+        })
+      }
+      this.setData({
+        Login:app.globalData.hasLogin
+      })
+    }
   },
 
   /**
