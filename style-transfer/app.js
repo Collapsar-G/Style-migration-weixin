@@ -1,7 +1,8 @@
 //app.js
 App({
   globalData: {
-    openid: null
+    openid: null,
+		cookie: null
   },
   onLaunch: function() {
     wx.getSystemInfo({

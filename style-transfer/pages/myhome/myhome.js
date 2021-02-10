@@ -1,4 +1,5 @@
 // pages/myhome/myhome.js
+const app = getApp()
 Page({
 
   /**
@@ -12,14 +13,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+		const thiz = this
+		console.log(app.globalData.cookie)
     //请求，设置count。接口有bug
     wx.request({
-      url: 'https://xcx.collapsar.online/user/history',
+      url: 'https://xcx.collapsar.online/user/total',
       method: 'GET',
+			header: {
+				'Cookie': app.globalData.cookie[0]
+			},
       success: function(res) {
         console.log(res) //获取openid
-       
+				thiz.setData({
+					count:res.data.count
+				})		
       }
     })
   },
