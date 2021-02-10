@@ -1,39 +1,13 @@
 // pages/history/history.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    images: [{
-        "date": "",
-        "array": [{
-          'time': 11,
-          "url": "rr"
-        }]
-      },
-      {}
-    ],
-    test: {
-      "code": 200,
-      "data": [{
-          "timestamp": "1612779210000",
-				"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
-        },
-        {
-          "timestamp": "1612777913000",
-					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
-        }, {
-          "timestamp": "1612479210000",
-					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
-        },
-        {
-          "timestamp": "1612477913000",
-					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
-        }
-      ],
-      "msg": "success"
-    }
+    images:[],
+
   },
 
   preview: function(event) {
@@ -46,7 +20,7 @@ Page({
   },
 
   formatTime: function(ts) {
-    let tomorrow = new Date(parseInt(ts));
+    let tomorrow = new Date(parseInt(ts)*1000);
     let year = tomorrow.getFullYear(); //获取年
     let month = tomorrow.getMonth() + 1; //获取月
     let date = tomorrow.getDate(); //获取日
@@ -55,11 +29,83 @@ Page({
   },
 
   getHourAndMinute: function(ts) {
-    let date = new Date(parseInt(ts))
+    let date = new Date(parseInt(ts)*1000)
     let hour = date.getHours()
     let minute = date.getMinutes()
     return hour + ":" + minute
   },
+
+	saveImg: function (e) {
+		if (this.data.HaveSave) {
+			wx.showToast({
+				title: '您已保存图片',
+				icon: 'none',
+				duration: 1500
+			})
+			return;
+		}
+		let that = this;
+
+		//获取相册授权
+		wx.getSetting({
+			success(res) {
+				if (!res.authSetting['scope.writePhotosAlbum']) {
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success() {
+							//这里是用户同意授权后的回调
+							that.saveImgToLocal();
+						},
+						fail() {//这里是用户拒绝授权后的回调
+							that.setData({
+								openSettingBtnHidden: false
+							})
+						}
+					})
+				} else {//用户已经授权过了
+					that.saveImgToLocal();
+				}
+			}
+		})
+
+	},
+	saveImgToLocal: function (e) {
+		let that = this;
+		let imgSrc = that.data.src;
+		wx.showLoading({
+			title: '保存图片中',
+		})
+		console.log(imgSrc);
+		wx.downloadFile({
+			url: imgSrc,
+			success: function (res) {
+				//图片保存到本地
+				wx.saveImageToPhotosAlbum({
+					filePath: res.tempFilePath,
+					success: function (data) {
+						wx.hideLoading()
+						wx.showToast({
+							title: '保存成功',
+							icon: 'success',
+							duration: 2000
+						})
+						that.setData({
+							HaveSave: 1
+						})
+					},
+					fail: function (data) {
+						wx.hideLoading()
+						wx.showToast({
+							title: '保存失败',
+							icon: 'error',
+							duration: 2000
+						})
+					}
+				})
+			}
+		})
+
+	},
 
 
   /**
@@ -75,48 +121,66 @@ Page({
     //   }
     // })
     var thiz = this
-    var json = thiz.data.test
-    var code = json.code
-    var data = json.data
-    console.log(data)
-    if (code == 200) {
-      //正常返回，处理时间戳变成时间
-      let last_date = thiz.formatTime(data[0].timestamp)
-      let itemJson = new Object()
-      itemJson['date'] = ''
-      itemJson['array'] = []
-      let local_images = []
-      data.forEach(function(item) {
-        console.log(item)
-        var timestamp = item.timestamp
-        var url = item.url
-        var date = thiz.formatTime(timestamp)
-        console.log(last_date)
-        console.log(date)
-        if (!(date === last_date)) {
-          local_images.push(itemJson)
-          itemJson = new Object()
-          itemJson['date'] = ''
-          itemJson['array'] = []
-        }
-        itemJson["date"] = date
-        let image_json = new Object()
-        image_json["time"] = thiz.getHourAndMinute(timestamp)
-        image_json["url"] = url
-        itemJson["array"].push(image_json)
 
-        last_date = date
-      })
+		wx.request({
+			url: 'https://xcx.collapsar.online/user/history',
+			method: 'GET',
+			header: {
+				'Cookie': app.globalData.cookie[0]
+			},
+			success: function (res) {
+				console.log(res) //获取openid
 
-      local_images.push(itemJson)
-      console.log('loc', local_images)
 
-      thiz.setData({
-        images: local_images
-      })
-    } else {
-      //提示与服务器连接失败
-    }
+				var json = res.data
+				var code = json.code
+				var data = json.data
+				console.log(data)
+				if (code == 200) {
+					//正常返回，处理时间戳变成时间
+					let last_date = thiz.formatTime(data[0].timestamp)
+					let itemJson = new Object()
+					itemJson['date'] = ''
+					itemJson['array'] = []
+					let local_images = []
+					data.forEach(function (item) {
+						console.log(item)
+						var timestamp = item.timestamp
+						var url = item.url
+						var date = thiz.formatTime(timestamp)
+						console.log(last_date)
+						console.log(date)
+						if (!(date === last_date)) {
+							local_images.push(itemJson)
+							itemJson = new Object()
+							itemJson['date'] = ''
+							itemJson['array'] = []
+						}
+						itemJson["date"] = date
+						let image_json = new Object()
+						image_json["time"] = thiz.getHourAndMinute(timestamp)
+						image_json["url"] = url
+						itemJson["array"].push(image_json)
+
+						last_date = date
+					})
+
+					local_images.push(itemJson)
+
+					thiz.setData({
+						images: local_images
+					})
+				} else {
+					//提示与服务器连接失败
+				}
+
+
+			},
+			complete:function(res){
+
+			}
+		})
+
   },
 
   /**
