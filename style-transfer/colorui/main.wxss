@@ -2040,7 +2040,7 @@ button.icon.lg {
 	content: "";
 	display: block;
 	position: absolute;
-	width: 1rpx;
+	width: 1px;
 	background-color: #ddd;
 	left: 60rpx;
 	height: 100%;
