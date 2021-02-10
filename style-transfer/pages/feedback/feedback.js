@@ -26,15 +26,43 @@ Page({
               title: '发送中',
             })
 
-            wx.showModal({
-              title: '回应',
-              content: '感觉您的反馈，我们会尽快处理',
-            })
-            thiz.setData({
-              inputValue: null
+            wx.request({
+              url: 'https://xcx.collapsar.online/feedback/feedback_content',
+              data: {
+                'content': inputValue
+              },
+              method: 'POST',
+              header: {
+                'content-type': 'application/json'
+              },
+              success: function(res) {
+                console.log(res) //获取openid
+                if (res.data.code == 200) {
+                  wx.showModal({
+                    title: '回应',
+                    content: '感觉您的反馈，我们会尽快处理',
+                  })
+                  thiz.setData({
+                    inputValue: null
+                  })
+                } else {
+                  wx.showModal({
+                    title: '回应',
+                    content: '服务器异常，发送失败',
+                  })
+                }
+              },
+              fail: function(res) {
+                wx.showModal({
+                  title: '回应',
+                  content: '服务器异常，发送失败',
+                })
+              },
+              complete: function(res) {
+                wx.hideLoading()
+              }
             })
 
-						wx.hideLoading()
           }
 
         },

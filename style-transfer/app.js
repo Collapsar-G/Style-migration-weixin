@@ -2,6 +2,7 @@
 App({
   globalData: {
     openid: null,
+		cookie: null,
     hasLogin:false
   },
   onLaunch: function() {

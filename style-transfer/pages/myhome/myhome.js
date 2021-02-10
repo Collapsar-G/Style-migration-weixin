@@ -6,14 +6,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-		count:0,
-    Login:false
+    count: 0,
+    Login: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
+    const thiz = this
+    if (!app.globalData.hasLogin) {
+      wx.navigateTo({
+        url: '../login/login'
+      })
+    }
+    this.setData({
+      Login: app.globalData.hasLogin
+    })
+
+    wx.request({
+      url: 'https://xcx.collapsar.online/user/total',
+      method: 'GET',
+      header: {
+        'Cookie': app.globalData.cookie[0]
+      },
+      success: function(res) {
+        console.log(res) //获取openid
+        thiz.setData({
+          count: res.data.count
+        })
+      }
+    })
 
   },
   /**
