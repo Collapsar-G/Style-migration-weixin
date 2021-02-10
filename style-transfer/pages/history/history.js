@@ -35,6 +35,78 @@ Page({
     return hour + ":" + minute
   },
 
+	saveImg: function (e) {
+		if (this.data.HaveSave) {
+			wx.showToast({
+				title: '您已保存图片',
+				icon: 'none',
+				duration: 1500
+			})
+			return;
+		}
+		let that = this;
+
+		//获取相册授权
+		wx.getSetting({
+			success(res) {
+				if (!res.authSetting['scope.writePhotosAlbum']) {
+					wx.authorize({
+						scope: 'scope.writePhotosAlbum',
+						success() {
+							//这里是用户同意授权后的回调
+							that.saveImgToLocal();
+						},
+						fail() {//这里是用户拒绝授权后的回调
+							that.setData({
+								openSettingBtnHidden: false
+							})
+						}
+					})
+				} else {//用户已经授权过了
+					that.saveImgToLocal();
+				}
+			}
+		})
+
+	},
+	saveImgToLocal: function (e) {
+		let that = this;
+		let imgSrc = that.data.src;
+		wx.showLoading({
+			title: '保存图片中',
+		})
+		console.log(imgSrc);
+		wx.downloadFile({
+			url: imgSrc,
+			success: function (res) {
+				//图片保存到本地
+				wx.saveImageToPhotosAlbum({
+					filePath: res.tempFilePath,
+					success: function (data) {
+						wx.hideLoading()
+						wx.showToast({
+							title: '保存成功',
+							icon: 'success',
+							duration: 2000
+						})
+						that.setData({
+							HaveSave: 1
+						})
+					},
+					fail: function (data) {
+						wx.hideLoading()
+						wx.showToast({
+							title: '保存失败',
+							icon: 'error',
+							duration: 2000
+						})
+					}
+				})
+			}
+		})
+
+	},
+
 
   /**
    * 生命周期函数--监听页面加载
