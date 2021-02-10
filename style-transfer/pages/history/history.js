@@ -1,4 +1,5 @@
 // pages/history/history.js
+const app = getApp()
 Page({
 
   /**
@@ -9,7 +10,7 @@ Page({
         "date": "",
         "array": [{
           'time': 11,
-          "url": "rr"
+          "url": ""
         }]
       },
       {}
@@ -75,6 +76,21 @@ Page({
     //   }
     // })
     var thiz = this
+
+		wx.request({
+			url: 'https://xcx.collapsar.online/user/history',
+			method: 'GET',
+			header: {
+				'Cookie': app.globalData.cookie[0]
+			},
+			success: function (res) {
+				console.log(res) //获取openid
+			},
+			complete:function(res){
+
+			}
+		})
+
     var json = thiz.data.test
     var code = json.code
     var data = json.data
