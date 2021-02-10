@@ -24,20 +24,6 @@ Page({
       Login: app.globalData.hasLogin
     })
 
-    wx.request({
-      url: 'https://xcx.collapsar.online/user/total',
-      method: 'GET',
-      header: {
-        'Cookie': app.globalData.cookie[0]
-      },
-      success: function(res) {
-        console.log(res) //获取openid
-        thiz.setData({
-          count: res.data.count
-        })
-      }
-    })
-
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -50,6 +36,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+		const thiz = this
+		
     if(!app.globalData.hasBackIndex){
       if(!app.globalData.hasLogin){
         wx.navigateTo({
@@ -60,6 +48,22 @@ Page({
         Login:app.globalData.hasLogin
       })
     }
+
+
+		wx.request({
+			url: 'https://xcx.collapsar.online/user/total',
+			method: 'GET',
+			header: {
+				'Cookie': app.globalData.cookie[0]
+			},
+			success: function (res) {
+				console.log(res) //获取openid
+				thiz.setData({
+					count: res.data.count
+				})
+			}
+		})
+
   },
 
   /**
