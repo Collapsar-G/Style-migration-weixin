@@ -38,7 +38,6 @@ Page({
 				'Cookie': app.globalData.cookie[0]
 			},
 			success: function (res) {
-				console.log(res) //获取openid
 				thiz.setData({
 					count: res.data.count
 				})
