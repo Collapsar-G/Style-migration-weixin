@@ -13,8 +13,11 @@
   <view class="cu-time">{{item.date}}</view>
   <view class="cu-item" wx:for="{{item.array}}" wx:for-item="item2">
     <view class="content">
-      <view class="cu-tag line-grey margin-bottom-sm">{{item2.time}}</view>
-      <image src="{{item2.url}}"></image>
+      <view class=' margin-bottom-sm'>
+			<view class="cu-tag line-grey">{{item2.time}}</view>
+			</view>
+      
+      <image src="{{item2.url}}" data-url="{{item2.url}}" bindtap="preview" mode="aspectFill"></image>
     </view>
   </view>
 </view>

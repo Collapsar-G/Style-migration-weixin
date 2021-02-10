@@ -17,27 +17,36 @@ Page({
     test: {
       "code": 200,
       "data": [{
-          "timestamp": "1612779210",
-          "url": "http://127.0.0.1:3268/static/image/output/1612801118_stylized_qlssh_alpha_0.4_preserve_color_False.jpg"
+          "timestamp": "1612779210000",
+				"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
         },
         {
-          "timestamp": "1612777913",
-          "url": "http://127.0.0.1:3268/static/image/output/1612801118_stylized_qlssh_alpha_0.4_preserve_color_False.jpg"
+          "timestamp": "1612777913000",
+					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
         }, {
-          "timestamp": "1612479210",
-          "url": "http://127.0.0.1:3268/static/image/output/1612801118_stylized_qlssh_alpha_0.4_preserve_color_False.jpg"
+          "timestamp": "1612479210000",
+					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
         },
         {
-          "timestamp": "1612477913",
-          "url": "http://127.0.0.1:3268/static/image/output/1612801118_stylized_qlssh_alpha_0.4_preserve_color_False.jpg"
+          "timestamp": "1612477913000",
+					"url": "https://pic4.zhimg.com/v2-3c102e3c655942fa2302405bfa448b3b_b.jpg"
         }
       ],
       "msg": "success"
     }
   },
 
+  preview: function(event) {
+    console.log(event.currentTarget.dataset.url)
+    let currentUrl = event.currentTarget.dataset.url
+    wx.previewImage({
+      current: currentUrl, // 当前显示图片的http链接
+      urls: [currentUrl] // 需要预览的图片http链接列表
+    })
+  },
+
   formatTime: function(ts) {
-    let tomorrow = new Date(parseInt(ts) * 1000);
+    let tomorrow = new Date(parseInt(ts));
     let year = tomorrow.getFullYear(); //获取年
     let month = tomorrow.getMonth() + 1; //获取月
     let date = tomorrow.getDate(); //获取日
@@ -46,7 +55,7 @@ Page({
   },
 
   getHourAndMinute: function(ts) {
-    let date = new Date(parseInt(ts) * 1000)
+    let date = new Date(parseInt(ts))
     let hour = date.getHours()
     let minute = date.getMinutes()
     return hour + ":" + minute
@@ -91,9 +100,9 @@ Page({
           itemJson['array'] = []
         }
         itemJson["date"] = date
-				let image_json = new Object()
-				image_json["time"] = thiz.getHourAndMinute(timestamp)
-				image_json["url"] = url
+        let image_json = new Object()
+        image_json["time"] = thiz.getHourAndMinute(timestamp)
+        image_json["url"] = url
         itemJson["array"].push(image_json)
 
         last_date = date
