@@ -7,7 +7,7 @@ Page({
    */
   data: {
     count: 0,
-    Login: false
+    // Login: false
   },
 
   /**
@@ -15,20 +15,20 @@ Page({
    */
   onLoad: function(options) {
     const thiz = this
-    if (!app.globalData.hasLogin) {
-      wx.navigateTo({
-        url: '../login/login'
-      })
-    }
-    this.setData({
-      Login: app.globalData.hasLogin
-    })
+    // if (!app.globalData.hasLogin) {
+    //   wx.navigateTo({
+    //     url: '../login/login'
+    //   })
+    // }
+    // this.setData({
+    //   Login: app.globalData.hasLogin
+    // })
 
     wx.request({
       url: 'https://xcx.collapsar.online/user/total',
       method: 'GET',
       header: {
-        'Cookie': app.globalData.cookie[0]
+        'Cookie': app.globalData.cookie
       },
       success: function(res) {
         console.log(res) //获取openid
@@ -50,16 +50,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(!app.globalData.hasBackIndex){
-      if(!app.globalData.hasLogin){
-        wx.navigateTo({
-          url: '../login/login'
-        })
-      }
-      this.setData({
-        Login:app.globalData.hasLogin
-      })
-    }
+    // if(!app.globalData.hasBackIndex){
+    //   if(!app.globalData.hasLogin){
+    //     wx.navigateTo({
+    //       url: '../login/login'
+    //     })
+    //   }
+    //   this.setData({
+    //     Login:app.globalData.hasLogin
+    //   })
+    // }
   },
 
   /**
