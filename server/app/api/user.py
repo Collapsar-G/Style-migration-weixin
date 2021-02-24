@@ -12,6 +12,7 @@ import datetime
 from app.database.models import db, Transfer, Image
 from app.database.models import User
 import requests
+
 user = Blueprint('user', __name__)
 
 appid = "wx7330267cab93fa97"
@@ -36,7 +37,7 @@ def login():
     # 先检测用户是否已在数据库
 
     url = 'https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code'.format(
-            appid=appid, secret=secret, code=code)
+        appid=appid, secret=secret, code=code)
     res = requests.get(url)
     openid = res.json().get('openid')
     session_key = res.json().get('session_key')
@@ -54,13 +55,13 @@ def login():
             return jsonify(code=500, msg='database error')
 
     session['id'] = user.id
-    return jsonify(code=200, msg='success',id=id)
+    return jsonify(code=200, msg='success', id=id)
 
 
-@user.route('/check', methods=['GET'])
-def check():
-    id = session.get('id')
-    return id
+# @user.route('/check', methods=['GET'])
+# def check():
+#     id = session.get('id')
+#     return id
 
 
 @user.route('/logout', methods=['GET'])
@@ -70,6 +71,7 @@ def logout():
     @return:    code(200 正常)
                 msg(信息)
     """
+
     session.clear()
     return jsonify(code=200, msg='quit')
 
@@ -91,7 +93,9 @@ def history():
                                 timestamp
                             }
     """
+    # param = request.get_json()
     user_id = session['id']
+    # user_id = param.get('id')
     if not user_id:
         return jsonify(code=400, msg='user illegal')
 
