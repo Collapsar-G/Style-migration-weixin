@@ -1,0 +1,31 @@
+<!--pages/exhibition/exhibition.wxml-->
+<cu-custom bgColor="bg-white">
+  <view slot="content">图片展示</view>
+</cu-custom>
+
+<view class="cu-card dynamic">
+  <view class="cu-item shadow">
+
+    <view class="flex justify-center align-center padding">
+			<image src='{{images[1][0]}}'></image>
+			<image src='{{images[1][1]}}'></image>
+    </view>
+
+    <view class="text-gray text-sm text-right padding">
+		
+    </view>
+
+  </view>
+
+	  <view class="cu-item shadow">
+
+    <view class="flex center padding">
+			<image src='{{images[1][0]}}'></image>
+    </view>
+
+    <view class="text-gray text-sm text-right padding">
+    </view>
+
+  </view>
+
+</view>

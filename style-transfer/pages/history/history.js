@@ -122,7 +122,7 @@ Page({
 				var json = res.data
 				var code = json.code
 				var data = json.data
-				console.log(data)
+				console.log("history",data)
 				if (code == 200) {
 					//正常返回，处理时间戳变成时间
 					let last_date = thiz.formatTime(data[0].timestamp)
