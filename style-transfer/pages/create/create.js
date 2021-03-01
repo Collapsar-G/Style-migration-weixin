@@ -214,13 +214,14 @@ Page({
     that.data.setInter = setInterval(
         function () {
             let temp = that.data.progessLoding + that.data.speed;
-            temp = temp>100?100:temp
-            if(that.data.progessLoding == 100){
+            temp = temp>99?99:temp
+            if(that.data.progessLoding == 99){
                 if(that.data.getReply){
                   if(that.data.success){
                     that.setData({
                       lock : 0,
                       tips:'生成成功',
+                      progessLoding:100
                     })
                   }
                   else{

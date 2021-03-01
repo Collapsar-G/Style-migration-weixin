@@ -8,10 +8,11 @@
 <image bindtap="getLocalImage" src="../../icon/picture2.png" mode="widthFix" style="width:{{InsertPicWidth}}rpx;margin-top: {{InsertPicTopMargin}}rpx;margin-left: {{InsertPicLeftMargin}}rpx;" wx:else></image>
 <!-- <button  style='position:fixed;width:100%;bottom:{{btnheight}}rpx' type="primary" bindtap="getLocalImage">拍照</button> -->
 
-<image class="close2" bindtap="showModal2" data-target="DialogModal2" src="../../icon/close2.png" mode="widthFix" style="display: flex;width:80rpx;z-index: 5;bottom:{{btnheight+10+bkheight}}rpx;margin-left: 630rpx;opacity: 0.70;position:fixed;" wx:if="{{IsExist && (1-showBtn)}}"></image>
+<image class="close2" bindtap="showModal2" data-target="DialogModal2" src="../../icon/close2.png" mode="widthFix" style="display: flex;width:80rpx;z-index: 5;bottom:{{btnheight+10+bkheight}}rpx;margin-left: 630rpx;opacity: 0.70;position:fixed;" wx:if="{{IsExist && (1-showBtn) && !HaveSave}}"></image>
+<image class="close2" bindtap="closeCreate" data-target="DialogModal2" src="../../icon/close2.png" mode="widthFix" style="display: flex;width:80rpx;z-index: 5;bottom:{{btnheight+10+bkheight}}rpx;margin-left: 630rpx;opacity: 0.70;position:fixed;" wx:if="{{IsExist && (1-showBtn) && HaveSave}}"></image>
 
 <view class="cu-modal {{modalName2=='DialogModal2'?'show':''}}">
-  <view class="cu-dialog">
+  <view class="cu-dialog" >
     <view class="cu-bar bg-white justify-end" style="font-weight: bold;">
       <view class="content">提示</view>
     </view>
