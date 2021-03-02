@@ -4,26 +4,19 @@
 </cu-custom>
 
 <view class="cu-card dynamic">
-  <view class="cu-item shadow">
+  <view class="cu-item shadow" wx:for="{{images}}" wx:for-item="item" wx:for-index='index'>
 
-    <view class="flex justify-center align-center padding">
-			<image src='{{images[1][0]}}'></image>
-			<image src='{{images[1][1]}}'></image>
+    <view class="flex justify-center align-center padding-top">
+      <view wx:if="{{changes[index-1]}}">
+        <image class="shadow" mode="aspectFill" src='{{item[1]}}' bindtap="preview" data-url="{{item[1]}}"></image>
+      </view>
+      <view wx:else>
+        <image class="shadow" mode="aspectFill" src='{{item[0]}}' bindtap="preview" data-url="{{item[0]}}"></image>
+      </view>
     </view>
 
-    <view class="text-gray text-sm text-right padding">
-		
-    </view>
-
-  </view>
-
-	  <view class="cu-item shadow">
-
-    <view class="flex center padding">
-			<image src='{{images[1][0]}}'></image>
-    </view>
-
-    <view class="text-gray text-sm text-right padding">
+    <view class="text-black text-xl text-right padding">
+      <switch bindchange="change" checked="{{changes[index-1]}}" data-index="{{index-1}}"></switch>
     </view>
 
   </view>

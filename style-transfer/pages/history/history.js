@@ -6,8 +6,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    images:[],
-		loading:true
+    images: [],
+    loading: true,
+    noImage: false,
+  },
+
+  hideModal: function(e) {
+		this.setData({
+			noImage:false,
+		})
   },
 
   preview: function(event) {
@@ -20,7 +27,7 @@ Page({
   },
 
   formatTime: function(ts) {
-    let tomorrow = new Date(parseInt(ts)*1000);
+    let tomorrow = new Date(parseInt(ts) * 1000);
     let year = tomorrow.getFullYear(); //获取年
     let month = tomorrow.getMonth() + 1; //获取月
     let date = tomorrow.getDate(); //获取日
@@ -29,70 +36,72 @@ Page({
   },
 
   getHourAndMinute: function(ts) {
-    let date = new Date(parseInt(ts)*1000)
+    let date = new Date(parseInt(ts) * 1000)
     let hour = date.getHours()
     let minute = date.getMinutes()
+		hour = hour >= 10 ? hour : '0' + hour
+		minute = minute >= 10 ? minute : '0' + minute
     return hour + ":" + minute
   },
 
-	saveImg: function (e) {
-		let that = this;
-		console.log(e)
-		//获取相册授权
-		wx.getSetting({
-			success(res) {
-				if (!res.authSetting['scope.writePhotosAlbum']) {
-					wx.authorize({
-						scope: 'scope.writePhotosAlbum',
-						success() {
-							//这里是用户同意授权后的回调
-							that.saveImgToLocal(e);
-						},
-						fail() {//这里是用户拒绝授权后的回调
+  saveImg: function(e) {
+    let that = this;
+    console.log(e)
+    //获取相册授权
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success() {
+              //这里是用户同意授权后的回调
+              that.saveImgToLocal(e);
+            },
+            fail() { //这里是用户拒绝授权后的回调
 
-						}
-					})
-				} else {//用户已经授权过了
-					that.saveImgToLocal(e);
-				}
-			}
-		})
+            }
+          })
+        } else { //用户已经授权过了
+          that.saveImgToLocal(e);
+        }
+      }
+    })
 
-	},
-	saveImgToLocal: function (e) {
-		let that = this;
-		let imgSrc = e.currentTarget.dataset.url;
-		wx.showLoading({
-			title: '保存图片中',
-		})
-		console.log(imgSrc);
-		wx.downloadFile({
-			url: imgSrc,
-			success: function (res) {
-				//图片保存到本地
-				wx.saveImageToPhotosAlbum({
-					filePath: res.tempFilePath,
-					success: function (data) {
-						wx.hideLoading()
-						wx.showToast({
-							title: '保存成功',
-							icon: 'success',
-							duration: 2000
-						})
-					},
-					fail: function (data) {
-						wx.hideLoading()
-						wx.showToast({
-							title: '保存失败',
-							icon: 'error',
-							duration: 2000
-						})
-					}
-				})
-			}
-		})
+  },
+  saveImgToLocal: function(e) {
+    let that = this;
+    let imgSrc = e.currentTarget.dataset.url;
+    wx.showLoading({
+      title: '保存图片中',
+    })
+    console.log(imgSrc);
+    wx.downloadFile({
+      url: imgSrc,
+      success: function(res) {
+        //图片保存到本地
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function(data) {
+            wx.hideLoading()
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },
+          fail: function(data) {
+            wx.hideLoading()
+            wx.showToast({
+              title: '保存失败',
+              icon: 'error',
+              duration: 2000
+            })
+          }
+        })
+      }
+    })
 
-	},
+  },
 
 
   /**
@@ -107,7 +116,9 @@ Page({
 
     //   }
     // })
-    var thiz = this
+		console.log(app.globalData.cookie[0])
+
+		var thiz = this
 
 		wx.request({
 			url: 'https://xcx.collapsar.online/user/history',
@@ -117,19 +128,29 @@ Page({
 			},
 			success: function (res) {
 				console.log(res) //获取openid
-
+				console.log('cookie', app.globalData.cookie[0])
 
 				var json = res.data
 				var code = json.code
 				var data = json.data
-				console.log("history",data)
+				console.log("history", data)
 				if (code == 200) {
+					if (data.length == 0) {
+						thiz.setData({
+							loading: false,
+							noImage: true,
+						})
+						return
+					}
+
+
 					//正常返回，处理时间戳变成时间
 					let last_date = thiz.formatTime(data[0].timestamp)
 					let itemJson = new Object()
 					itemJson['date'] = ''
 					itemJson['array'] = []
 					let local_images = []
+
 					data.forEach(function (item) {
 						console.log(item)
 						var timestamp = item.timestamp
@@ -165,12 +186,12 @@ Page({
 						icon: 'error',
 						duration: 2000
 					})
-				
+
 				}
 
 
 			},
-			complete:function(res){
+			complete: function (res) {
 
 			}
 		})
@@ -188,6 +209,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+
 
   },
 

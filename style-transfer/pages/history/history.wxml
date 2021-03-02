@@ -27,3 +27,18 @@
 <view class="padding-sm text-center">
 	<image wx:if="{{loading}}" class="gif-white response" mode="aspectFit" src="/icon/loading.gif" style="height:150rpx;"></image>
 </view>
+
+
+<view class="cu-modal {{noImage==true?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">提示</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      最近十天没有生成过图片。
+    </view>
+  </view>
+</view>

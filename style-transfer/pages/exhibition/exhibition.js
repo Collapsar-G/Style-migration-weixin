@@ -5,24 +5,63 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		images:null
+		images:null,
+		changes:[]
+	},
+
+	preview: function (event) {
+		console.log(event.currentTarget.dataset.url)
+		let currentUrl = event.currentTarget.dataset.url
+		wx.previewImage({
+			current: currentUrl, // 当前显示图片的http链接
+			urls: [currentUrl] // 需要预览的图片http链接列表
+		})
+	},
+
+	change:function(e){
+		console.log(e)
+		var index = e.currentTarget.dataset.index
+		var value = e.detail.value
+		this.setData({
+			['changes['+index+']']:value
+		})
 	},
 
 	getExhibition:function(e){
 		const thiz = this
 
 		wx.request({
-			url: 'https://xcx.collapsar.online/show/show_all/',
+			url: 'https://collapsar.cn.utools.club/show/show_all/',
 			method:'GET',
 			header:{
 				'content-type':'application/json'
 			},
 			success: function (res){
 				console.log(res)
-				thiz.setData({
-					images:res.data.data.images
+				if(res.data.code==200){
+					var changes = new Array(res.data.data.num)
+					console.log(res.data.data.images)
+					for (var i = 0; i < res.data.data.num; i++) {
+						changes[i] = true
+					}
+					thiz.setData({
+						images: res.data.data.images,
+						changes: changes
+					})
+
+				}else{
+					wx.showToast({
+						title: '连接服务器失败',
+						icon: 'error'
+					})
+				}
+
+			},
+			fail:function(res){
+				wx.showToast({
+					title: '连接服务器失败',
+					icon:'error'
 				})
-				console.log(res.data.data.images['1'])
 			}
 		})
 
